@@ -35,13 +35,23 @@ public abstract class Character : MonoBehaviour
 
     private void Move()
     {
+        
         transform.Translate(Time.deltaTime * moveSpeed * MoveDirection);
-        AnimateMovementAnimation();
+        AnimateMovementAnimation(MoveDirection);
     }
 
-    private void AnimateMovementAnimation()
+    private void AnimateMovementAnimation(Vector2 direction)
     {
-        _animator.SetFloat(Vx, MoveDirection.x);
-        _animator.SetFloat(Vy, MoveDirection.y);
+        //Sync animator speed and character speed
+        _animator.speed = moveSpeed;
+        
+        //Handle Walk and Idle animations
+        _animator.SetLayerWeight(1, direction.SqrMagnitude() > 0.1 ? 1 : 0);
+        
+        //Sets the animation parameter so character animation walks in the correct direction
+        _animator.SetFloat(Vx, direction.x);
+        _animator.SetFloat(Vy, direction.y);
     }
+    
+    
 }
