@@ -6,16 +6,23 @@ using UnityEngine.EventSystems;
 
 public abstract class Character : MonoBehaviour
 {
-    //Character physical stats
-    [SerializeField] protected float moveSpeed;
-    protected Vector2 MoveDirection { get; set; }
-
     //Animator parameter variables
     private Animator _animator;
     private static readonly int Vx = Animator.StringToHash("vx");
     private static readonly int Vy = Animator.StringToHash("vy");
-
-
+    
+    //Physics system variables
+    [SerializeField] protected float moveSpeed;
+    protected Vector2 MoveDirection { get; set; }
+    private Rigidbody2D _rigidbody;
+    public bool IsMoving
+    {
+        get
+        {
+            return MoveDirection.SqrMagnitude() > 0.1f;
+        }
+    }
+    
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -26,33 +33,60 @@ public abstract class Character : MonoBehaviour
     {
         MoveDirection = Vector2.zero;
         _animator = GetComponent<Animator>();
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     protected virtual void Update()
+    {
+        HandleLayers();
+    }
+
+    protected virtual void FixedUpdate()
     {
         Move();
     }
     
     private void Move()
     {
-        
-        transform.Translate(Time.deltaTime * moveSpeed * MoveDirection);
-        AnimateMovementAnimation(MoveDirection);
+        _rigidbody.velocity = moveSpeed * MoveDirection.normalized;
     }
 
-    private void AnimateMovementAnimation(Vector2 direction)
+    void HandleLayers()
+    {
+        if (IsMoving)
+        {
+            AnimateMovement();
+        }
+        else
+        {
+            ActivateLayer("Idle Layer");
+        }
+    }
+
+    private void AnimateMovement()
     {
         //Sync animator speed and character speed
         _animator.speed = moveSpeed;
         
         //Handle Walk and Idle animations
-        _animator.SetLayerWeight(1, direction.SqrMagnitude() > 0.1 ? 1 : 0);
+        if (IsMoving)
+        {
+            ActivateLayer("Walk Layer");
+        }
         
         //Sets the animation parameter so character animation walks in the correct direction
-        _animator.SetFloat(Vx, direction.x);
-        _animator.SetFloat(Vy, direction.y);
+        _animator.SetFloat(Vx, MoveDirection.x);
+        _animator.SetFloat(Vy, MoveDirection.y);
     }
-    
+
+    public void ActivateLayer(string layerName)
+    {
+        for (int i = 0; i < _animator.layerCount; i++)
+        {
+            _animator.SetLayerWeight(i, 0);
+        }
+        _animator.SetLayerWeight(_animator.GetLayerIndex(layerName), 1);
+    }
     
 }

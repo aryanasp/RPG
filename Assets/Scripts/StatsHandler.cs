@@ -21,11 +21,11 @@ public class StatsHandler : MonoBehaviour
         Stats = new Dictionary<string, IStatController>();
         //Health
         CurrentStat = new HealthController();
-        CurrentStat.Enter(90, 100);
+        CurrentStat.Enter(70, 100);
         Stats.Add(CurrentStat.StatName(), CurrentStat);
         //Mana
         CurrentStat = new ManaController();
-        CurrentStat.Enter(70, 200);
+        CurrentStat.Enter(40, 50);
         Stats.Add(CurrentStat.StatName(), CurrentStat);
     }
     
