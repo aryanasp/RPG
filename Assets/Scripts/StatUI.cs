@@ -8,14 +8,23 @@ using UnityEngine.UI;
 
 public class StatUI : MonoBehaviour
 {
-    [SerializeField] private Character character;
+    [SerializeField] private StatsHandler character;
 
     [SerializeField] private Image statBarImage;
     [SerializeField] private Text statBarText;
+    private Dictionary<string, IStatController> _stats;
 
+    void Awake()
+    {
+        _stats = character.Stats;
+    }
     private void OnEnable()
     {
-        character.Stats[gameObject.tag].StatUpdater += UpdateUI;
+        _stats[gameObject.tag].StatUpdater += UpdateUI;
+    }
+    private void OnDisable()
+    {
+        _stats[gameObject.tag].StatUpdater -= UpdateUI;
     }
 
     private void UpdateUI(float currentValue, float maxValue)

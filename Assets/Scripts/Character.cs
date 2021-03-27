@@ -6,20 +6,6 @@ using UnityEngine.EventSystems;
 
 public abstract class Character : MonoBehaviour
 {
-    //Stats
-    private Dictionary<string,IStatController> _stats;
-
-    protected Dictionary<string, IStatController> StatsForChild
-    {
-        set => _stats = value;
-        get => _stats;
-    }
-    
-    public Dictionary<string, IStatController> Stats
-    {
-        get => _stats;
-    }
-
     //Character physical stats
     [SerializeField] protected float moveSpeed;
     protected Vector2 MoveDirection { get; set; }
@@ -47,7 +33,7 @@ public abstract class Character : MonoBehaviour
     {
         Move();
     }
-
+    
     private void Move()
     {
         

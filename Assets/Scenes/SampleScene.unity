@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f246389d4512b40a335003f6e61c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 453976959}
+  character: {fileID: 453976963}
   statBarImage: {fileID: 90724134}
   statBarText: {fileID: 1624396874}
 --- !u!114 &90724134
@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 453976961}
   - component: {fileID: 453976960}
   - component: {fileID: 453976959}
+  - component: {fileID: 453976963}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -327,6 +328,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &453976963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453976958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98dd796c152450946b91ed094a094098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &505130302
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,7 +646,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 0/100
 --- !u!222 &986681419
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -959,7 +972,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 0/100
 --- !u!222 &1624396875
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1019,7 +1032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f246389d4512b40a335003f6e61c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 453976959}
+  character: {fileID: 453976963}
   statBarImage: {fileID: 1685338735}
   statBarText: {fileID: 986681418}
 --- !u!114 &1685338735
