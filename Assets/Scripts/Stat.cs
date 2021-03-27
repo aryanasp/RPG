@@ -1,85 +1,57 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
-public class Stat : MonoBehaviour
+﻿public class Stat
 {
-    private Image _content;
+    private string _statName;
 
-    [SerializeField]
-    private float barLerpSpeed;
-
-    private float _currentFill;
-    
-    private float _maxValue;
-    public float BarMaxValue
+    public string StatName
     {
-        get => _maxValue;
+        get => _statName;
+        set => _statName = value;
+    }
+
+    private float _statMaxValue;
+
+    public float StatMaxValue
+    {
+        get => _statMaxValue;
         set
         {
             if (value < 0)
             {
-                _maxValue = 0;
+                _statMaxValue = 0;
             }
             else
             {
-                _maxValue = value;    
+                _statMaxValue = value;
             }
         }
     }
-    
-    private float _currentValue;
 
-    public float BarCurrentValue
+    private float _statCurrentValue;
+
+    public float StatCurrentValue
     {
-        get => _currentValue;
+        get => _statCurrentValue;
         set
         {
-            if (value > BarMaxValue)
+            if (value > StatMaxValue)
             {
-                _currentValue = BarMaxValue;
+                _statCurrentValue = StatMaxValue;
             }
             else if (value < 0)
             {
-                _currentValue = 0;
+                _statCurrentValue = 0;
             }
             else
             {
-                _currentValue = value;    
+                _statCurrentValue = value;
             }
-
-            _currentFill = _currentValue / _maxValue;
         }
-        
     }
 
-    public void Initialize(float currentValue, float maxValue)
+    public void Initialize(string statName, float currentValue, float maxValue)
     {
-
-        BarMaxValue = maxValue;
-        BarCurrentValue = currentValue;
-        
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        _content = GetComponent<Image>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        CheckIfCurrentHealthChange();
-    }
-
-    private void CheckIfCurrentHealthChange()
-    {
-        if (Math.Abs(_currentFill - _content.fillAmount) > 0.0001f)
-        {
-            _content.fillAmount = Mathf.Lerp(_content.fillAmount, _currentFill, barLerpSpeed * Time.deltaTime);
-        }
+        StatName = statName;
+        StatMaxValue = maxValue;
+        StatCurrentValue = currentValue;
     }
 }
