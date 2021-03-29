@@ -7,22 +7,32 @@ using UnityEngine.EventSystems;
 public abstract class Character : MonoBehaviour
 {
     //Animator parameter variables
-    private Animator _animator;
     private static readonly int Vx = Animator.StringToHash("vx");
     private static readonly int Vy = Animator.StringToHash("vy");
-    
+    protected static readonly int AnimatorAttack = Animator.StringToHash("attack");
+
     //Physics system variables
     [SerializeField] protected float moveSpeed;
+    
     protected Vector2 MoveDirection { get; set; }
-    private Rigidbody2D _rigidbody;
-    public bool IsMoving
+
+    protected Animator Animator { get; set; }
+
+    private Rigidbody2D Rigidbody { get; set; }
+    
+    
+    //States
+    protected bool IsMoving => MoveDirection.SqrMagnitude() > 0.1f;
+
+    protected bool IsAttacking
     {
-        get
-        {
-            return MoveDirection.SqrMagnitude() > 0.1f;
-        }
+        set;
+        get;
     }
     
+    //Attack
+    protected Coroutine AttackCoroutine;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -32,8 +42,8 @@ public abstract class Character : MonoBehaviour
     void InitializeGame()
     {
         MoveDirection = Vector2.zero;
-        _animator = GetComponent<Animator>();
-        _rigidbody = GetComponent<Rigidbody2D>();
+        Animator = GetComponent<Animator>();
+        Rigidbody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -46,47 +56,64 @@ public abstract class Character : MonoBehaviour
     {
         Move();
     }
-    
+
     private void Move()
     {
-        _rigidbody.velocity = moveSpeed * MoveDirection.normalized;
+        Rigidbody.velocity = moveSpeed * MoveDirection.normalized;
     }
 
     void HandleLayers()
     {
+        //Sync animator speed and character speed
+        Animator.speed = moveSpeed;
         if (IsMoving)
         {
+            ActivateLayer("WalkLayer");
+            StopAttack();
             AnimateMovement();
+            
+            
+        }
+        else if (IsAttacking)
+        {
+            ActivateLayer("AttackLayer");
         }
         else
         {
-            ActivateLayer("Idle Layer");
+            ActivateLayer("IdleLayer");
         }
     }
 
     private void AnimateMovement()
     {
-        //Sync animator speed and character speed
-        _animator.speed = moveSpeed;
-        
-        //Handle Walk and Idle animations
-        if (IsMoving)
-        {
-            ActivateLayer("Walk Layer");
-        }
-        
         //Sets the animation parameter so character animation walks in the correct direction
-        _animator.SetFloat(Vx, MoveDirection.x);
-        _animator.SetFloat(Vy, MoveDirection.y);
+        Animator.SetFloat(Vx, MoveDirection.x);
+        Animator.SetFloat(Vy, MoveDirection.y);
     }
 
-    public void ActivateLayer(string layerName)
+    private void ActivateLayer(string layerName)
     {
-        for (int i = 0; i < _animator.layerCount; i++)
+        for (int i = 0; i < Animator.layerCount; i++)
         {
-            _animator.SetLayerWeight(i, 0);
+            Animator.SetLayerWeight(i, 0);
         }
-        _animator.SetLayerWeight(_animator.GetLayerIndex(layerName), 1);
+
+        Animator.SetLayerWeight(Animator.GetLayerIndex(layerName), 1);
     }
-    
+
+    protected void StartAttack()
+    {
+        IsAttacking = true;
+        Animator.SetBool(AnimatorAttack, IsAttacking);
+    }
+    protected void StopAttack()
+    {
+        if (AttackCoroutine != null)
+        {
+            StopCoroutine(AttackCoroutine);
+            IsAttacking = false;
+            Animator.SetBool(AnimatorAttack, IsAttacking);
+        }
+        
+    }
 }

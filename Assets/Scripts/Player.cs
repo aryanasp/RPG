@@ -1,18 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Stats;
 using UnityEngine;
 
 
 public class Player : Character
 {
-
+    //Animator variables
     //Stat
-    private StatsHandler _statsHandler;
+    private StatController _statController;
     private static readonly string Health = "Health";
     private static readonly string Mana = "Mana";
+    
+
     void Awake()
     {
-        _statsHandler = GetComponent<StatsHandler>();
+        _statController = GetComponent<StatController>();
     }
     
     protected override void Start()
@@ -52,18 +55,28 @@ public class Player : Character
             MoveDirection += Vector2.left;
         }
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            AttackCoroutine = StartCoroutine(Attack());
+        }
 
-        //Debug Stat Bar
         if (Input.GetKeyDown(KeyCode.I))
         {
-            _statsHandler.IncreaseStatValue(Health, 10);
-            _statsHandler.IncreaseStatValue(Mana, 50);
+            _statController.ChangeStatValue(Health, 10);
+            _statController.ChangeStatValue(Mana, 40);
         }
-
         if (Input.GetKeyDown(KeyCode.O))
         {
-            _statsHandler.DecreaseStatValue(Health, 10);
-            _statsHandler.DecreaseStatValue(Mana, 50);
+            _statController.ChangeStatValue(Health, -10);
+            _statController.ChangeStatValue(Mana, -40);
         }
     }
+
+    private IEnumerator Attack()
+    {
+        if (IsAttacking || IsMoving) yield break;
+        StartAttack();  
+        yield return new WaitForSeconds(1);
+        StopAttack();
+    } 
 }
