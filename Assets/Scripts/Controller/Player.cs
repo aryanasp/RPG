@@ -15,16 +15,9 @@ namespace Controller
         //Keys
         private KeyController _keyController;
 
-        
-        
-        
-        
-        
-            
         //Fight game objects
         [SerializeField] private GameObject projectilePrefab;
-
-
+        
         void Awake()
         {
             _statController = GetComponent<StatController>();
@@ -49,13 +42,6 @@ namespace Controller
         
         void HandleInput()
         {
-            
-            //Handle player movements
-            if (_keyController.MovementInputs["Walk"])
-            {
-                //Animate player destination point cursor
-                
-            }
             //Handle player attacks
             if (_keyController.AttackInputs["Attack"])
             {
@@ -65,8 +51,6 @@ namespace Controller
                 }
             }
         }
-
-        
 
 
         private IEnumerator Attack()
@@ -81,7 +65,7 @@ namespace Controller
         {
             var transform1 = transform;
             GameObject fireSpell = Instantiate(projectilePrefab, transform1.position,
-                transform1.rotation * Quaternion.Euler(0, 0, MovementController.DirectionAngle + 90)) as GameObject;
+                Quaternion.Euler(0, 0, MovementController.DirectionAngle + 90)) as GameObject;
         }
     }
 }

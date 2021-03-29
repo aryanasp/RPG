@@ -27,8 +27,8 @@ namespace Controller
             get
             {
                 var position = transform.position;
-                return Mathf.Abs(TargetPoint.x - position.x) < 0.001f &&
-                       Mathf.Abs(TargetPoint.y - position.y) < 0.001f;
+                return Mathf.Abs(TargetPoint.x - position.x) < 0.1f &&
+                       Mathf.Abs(TargetPoint.y - position.y) < 0.1f;
             }
         }
 
@@ -51,12 +51,12 @@ namespace Controller
         {
             //Apply 0 movement speed in the starting of each frame
             MoveDirection = Vector2.zero;
-            //Determine player direction
-            FindStandingDirection();
             //Determine player destination to go where
             Go2Point();
             //Handle inputs
             HandleInput();
+            //Determine player direction
+            FindStandingDirection();
             
         }
         
@@ -64,7 +64,9 @@ namespace Controller
         {
             if (_keyController.MovementInputs["Walk"])
             {
+                //Animate player destination point cursor
                 HandleTargetPointAnimation();
+                //Find player path target point
                 TargetPoint = new Vector2(_keyController.MousePositions["X"], _keyController.MousePositions["Y"]);
             }
         }
@@ -90,10 +92,12 @@ namespace Controller
             {
                 DirectionAngle = Mathf.Atan(MoveDirection.y / MoveDirection.x) * Mathf.Rad2Deg;
                 //Handling this ambiguity tan(180) = tan(0) = 0
-                if (MoveDirection.x < 0 && DirectionAngle == 0)
+                if (MoveDirection.x < 0)
                 {
-                    DirectionAngle = 180;
+                    DirectionAngle += 180;
                 }
+
+                Debug.Log(DirectionAngle);
             }
         }
         
