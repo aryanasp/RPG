@@ -9,19 +9,17 @@ namespace Controller
         private static readonly int Vy = Animator.StringToHash("vy");
         protected static readonly int AnimatorAttack = Animator.StringToHash("attack");
 
+        protected MovementController MovementController;
         //Physics system variables
-        [SerializeField] protected float moveSpeed;
+        
     
-        protected Vector2 MoveDirection { get; set; }
+        
 
         protected Animator Animator { get; set; }
 
-        private Rigidbody2D Rigidbody { get; set; }
+        
 
-        protected float DirectionAngle { get; set; }
-    
-        //States
-        protected bool IsMoving => MoveDirection.SqrMagnitude() > 0.1f;
+        
 
         protected bool IsAttacking
         {
@@ -40,40 +38,30 @@ namespace Controller
 
         void InitializeGame()
         {
-            MoveDirection = Vector2.zero;
-            DirectionAngle = -90;
+            MovementController = GetComponent<MovementController>();
             Animator = GetComponent<Animator>();
-            Rigidbody = GetComponent<Rigidbody2D>();
+            
         }
 
         // Update is called once per frame
         protected virtual void Update()
         {
-            FindStandingDirection();
+            
             HandleLayers();
         }
-
-        protected virtual void FixedUpdate()
-        {
-            Move();
-        }
-
-        private void Move()
-        {
-            Rigidbody.velocity = moveSpeed * MoveDirection.normalized;
-        }
-
+        
+        //Handle Animations
         void HandleLayers()
         {
             //Sync animator speed and character speed
-            Animator.speed = moveSpeed;
-            if (IsMoving)
+            Animator.speed = MovementController.MoveSpeed;
+            
+            if (MovementController.IsMoving)
             {
                 ActivateLayer("WalkLayer");
                 StopAttack();
                 AnimateMovement();
-            
-            
+
             }
             else if (IsAttacking)
             {
@@ -85,24 +73,12 @@ namespace Controller
             }
         }
         
-        protected void FindStandingDirection()
-        {
-            if (IsMoving)
-            {
-                DirectionAngle = Mathf.Atan(MoveDirection.y / MoveDirection.x) * Mathf.Rad2Deg;
-                //Handling this ambiguation tan(180) = tan(0) = 0
-                if (MoveDirection.x < 0 && DirectionAngle == 0)
-                {
-                    DirectionAngle = 180;
-                }
-            }
-        }
         
         private void AnimateMovement()
         {
             //Sets the animation parameter so character animation walks in the correct direction
-            Animator.SetFloat(Vx, MoveDirection.x);
-            Animator.SetFloat(Vy, MoveDirection.y);
+            Animator.SetFloat(Vx, MovementController.MoveDirection.x);
+            Animator.SetFloat(Vy, MovementController.MoveDirection.y);
         }
 
         private void ActivateLayer(string layerName)

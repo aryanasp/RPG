@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 609013609367329943}
   - component: {fileID: 5176263278518655243}
   - component: {fileID: 1878329687}
+  - component: {fileID: 276257855}
   m_Layer: 0
-  m_Name: Point Prefab
+  m_Name: Target Point Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,3 +102,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &276257855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7269194260995852080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de565cd33c94b8849b66c45c8e39770b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
