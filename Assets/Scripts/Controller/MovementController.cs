@@ -22,6 +22,9 @@ namespace Controller
         //image which show up when u determine destination
         [SerializeField] private GameObject targetPointGameObject;
         private GameObject _pointGameObject;
+        
+        //Attack Controller
+        private AttackController _attackController;
         private bool IsInPoint
         {
             get
@@ -35,6 +38,7 @@ namespace Controller
         void Awake()
         {
             _keyController = GetComponent<KeyController>();
+            _attackController = GetComponent < AttackController>();
         }
         
         // Start is called before the first frame update
@@ -64,10 +68,14 @@ namespace Controller
         {
             if (_keyController.MovementInputs["Walk"])
             {
-                //Animate player destination point cursor
-                HandleTargetPointAnimation();
-                //Find player path target point
-                TargetPoint = new Vector2(_keyController.MousePositions["X"], _keyController.MousePositions["Y"]);
+                if (!_attackController.IsAttacking)
+                {
+                    //Animate player destination point cursor
+                    TargetPointCursor();
+                    //Find player path target point
+                    TargetPoint = new Vector2(_keyController.MousePositions["X"], _keyController.MousePositions["Y"]);
+                }
+                
             }
         }
 
@@ -78,7 +86,11 @@ namespace Controller
         
         void Go2Point()
         {
-            MoveDirection = !IsInPoint ? (TargetPoint - (Vector2) transform.position).normalized : Vector2.zero;
+            if (!_attackController.IsAttacking)
+            {
+                MoveDirection = !IsInPoint ? (TargetPoint - (Vector2) transform.position).normalized : Vector2.zero;
+            }
+
         }
         
         private void Move()
@@ -96,18 +108,22 @@ namespace Controller
                 {
                     DirectionAngle += 180;
                 }
-
-                Debug.Log(DirectionAngle);
             }
         }
         
-        private void HandleTargetPointAnimation()
+        private void TargetPointCursor()
         {
             if (!_pointGameObject)
             {
                 _pointGameObject = Instantiate(targetPointGameObject, TargetPoint, Quaternion.Euler(65, 0, 0), transform) as GameObject;
             }
             
+        }
+
+        public void StopWalk()
+        {
+            MoveDirection = Vector2.zero;
+            TargetPoint = transform.position;
         }
         
     }

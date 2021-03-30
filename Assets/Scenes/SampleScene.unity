@@ -226,9 +226,10 @@ GameObject:
   - component: {fileID: 453976960}
   - component: {fileID: 453976959}
   - component: {fileID: 453976963}
-  - component: {fileID: 453976964}
   - component: {fileID: 453976965}
   - component: {fileID: 453976966}
+  - component: {fileID: 453976967}
+  - component: {fileID: 453976964}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -248,8 +249,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d2e5f61a0d26094dad5bded297843a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 8433826890000499641, guid: 333c4b03ffde21b4d9f5d93879fd3839,
-    type: 3}
 --- !u!95 &453976960
 Animator:
   serializedVersion: 3
@@ -392,6 +391,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1.2
   targetPointGameObject: {fileID: 7269194260995852080, guid: 9cd6a1124b76eb84d8ca1390a9d83b19,
+    type: 3}
+--- !u!114 &453976967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453976958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87e62640dd3c2b64e927c62106b596c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 8433826890000499641, guid: 333c4b03ffde21b4d9f5d93879fd3839,
     type: 3}
 --- !u!1 &505130302
 GameObject:
