@@ -55,10 +55,10 @@ namespace Controller
         {
             //Apply 0 movement speed in the starting of each frame
             MoveDirection = Vector2.zero;
-            //Determine player destination to go where
-            Go2Point();
             //Handle inputs
             HandleInput();
+            //Determine player destination to go where
+            Go2Point();
             //Determine player direction
             FindStandingDirection();
             

@@ -6,14 +6,15 @@ namespace Controller
     public class AttackController : MonoBehaviour
     {
        
+        //variables
+        private static readonly string Fire = "Fire";
+        
         private MovementController _movementController;
         
         //Keys
         private KeyController _keyController;
-        
-        //Fight game objects
-        [SerializeField] private GameObject projectilePrefab;
-        
+
+        private SpellsController _spellsController;
         public bool IsAttacking
         {
             private set;
@@ -28,6 +29,7 @@ namespace Controller
         {
             _keyController = GetComponent<KeyController>();
             _movementController = GetComponent<MovementController>();
+            _spellsController = GetComponent<SpellsController>();
         }
 
         // Update is called once per frame
@@ -38,24 +40,28 @@ namespace Controller
         
         void HandleInput()
         {
-            //Handle player attacks
-            if (_keyController.AttackInputs["Attack"])
+            if (!IsAttacking)
             {
-                if (!IsAttacking)
+                //Handle player fire spell
+                if (_keyController.AttackInputs[Fire])
                 {
-                    _movementController.StopWalk();
-                    _attackCoroutine = StartCoroutine(Attack());
+                    
+                    _attackCoroutine = StartCoroutine(Attack(Fire));
+
                 }
             }
         }
         
-        private IEnumerator Attack()
+        private IEnumerator Attack(string spell)
         {
-            
-            StartAttack();
-            yield return new WaitForSeconds(2);
-            CastSpell();
-            StopAttack();
+            if (_spellsController.CanAttackFire)
+            {
+                _movementController.StopWalk();
+                StartAttack();
+                yield return new WaitForSeconds(2);
+                _spellsController.CastSpell(spell);
+                StopAttack();
+            }
         }
 
         
@@ -72,13 +78,6 @@ namespace Controller
                 StopCoroutine(_attackCoroutine);
                 IsAttacking = false;
             }
-        }
-        
-        private void CastSpell()
-        {
-            var transform1 = transform;
-            GameObject fireSpell = Instantiate(projectilePrefab, transform1.position,
-                Quaternion.Euler(0, 0, _movementController.DirectionAngle + 90)) as GameObject;
         }
         
     }

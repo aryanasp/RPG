@@ -2,7 +2,7 @@
 
 namespace Controller
 {
-    public class PlayerPathDestinationController : MonoBehaviour
+    public class TargetPointCursor : MonoBehaviour
     {
         
         private MovementController _parentMovementObject;
@@ -17,7 +17,11 @@ namespace Controller
         // Update is called once per frame
         void Update()
         {
-            transform.position = (Vector3) _parentMovementObject.TargetPoint;
+            if (_parentMovementObject.TargetPoint != (Vector2)_parentMovementObject.transform.position) //not displaying cursor in the character current position
+            {
+                transform.position = (Vector3) _parentMovementObject.TargetPoint;
+            }
+            
         }
     }
 }

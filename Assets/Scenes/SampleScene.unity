@@ -249,6 +249,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d2e5f61a0d26094dad5bded297843a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 8433826890000499641, guid: 333c4b03ffde21b4d9f5d93879fd3839,
+    type: 3}
 --- !u!95 &453976960
 Animator:
   serializedVersion: 3
@@ -404,8 +406,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87e62640dd3c2b64e927c62106b596c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 8433826890000499641, guid: 333c4b03ffde21b4d9f5d93879fd3839,
-    type: 3}
 --- !u!1 &505130302
 GameObject:
   m_ObjectHideFlags: 0
