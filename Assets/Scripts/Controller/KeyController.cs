@@ -55,6 +55,7 @@ namespace Controller
             _movementKeys["Select"] = new Action(KeyCode.Mouse0, "Press");
             //Attacks
             _attackKeys["Fire"] = new Action(KeyCode.Q, "Charge");
+            _attackKeys["Ice"] = new Action(KeyCode.W, "Charge");
         }
         
         

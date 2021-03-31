@@ -1,84 +1,33 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Controller
 {
     public class AttackController : MonoBehaviour
     {
-       
-        //variables
-        private static readonly string Fire = "Fire";
-        
-        private MovementController _movementController;
-        
-        //Keys
-        private KeyController _keyController;
-
-        private SpellsController _spellsController;
-        public bool IsAttacking
-        {
-            private set;
-            get;
-        }
-        
         //Attack
-        private Coroutine _attackCoroutine;
-        
-        // Start is called before the first frame update
-        void Start()
-        {
-            _keyController = GetComponent<KeyController>();
-            _movementController = GetComponent<MovementController>();
-            _spellsController = GetComponent<SpellsController>();
-        }
+        public bool IsAttacking { get; set; }
+        public List<SpellController> Spells { get; set; }
 
-        // Update is called once per frame
+        void Awake()
+        {
+            Spells = new List<SpellController>();
+        }
+        
+
         void Update()
         {
-            HandleInput();
-        }
-        
-        void HandleInput()
-        {
-            if (!IsAttacking)
+            if (Spells != null)
             {
-                //Handle player fire spell
-                if (_keyController.AttackInputs[Fire])
+                var attacks = false;
+                foreach (SpellController sp in Spells)
                 {
-                    
-                    _attackCoroutine = StartCoroutine(Attack(Fire));
-
+                    attacks = attacks || sp.IsCastingSpell;
                 }
+                IsAttacking = attacks;
             }
         }
-        
-        private IEnumerator Attack(string spell)
-        {
-            if (_spellsController.CanAttackFire)
-            {
-                _movementController.StopWalk();
-                StartAttack();
-                yield return new WaitForSeconds(2);
-                _spellsController.CastSpell(spell);
-                StopAttack();
-            }
-        }
-
-        
-        private void StartAttack()
-        {
-            IsAttacking = true;
-        }
-
-        
-        public void StopAttack()
-        {
-            if (_attackCoroutine != null)
-            {
-                StopCoroutine(_attackCoroutine);
-                IsAttacking = false;
-            }
-        }
-        
     }
 }

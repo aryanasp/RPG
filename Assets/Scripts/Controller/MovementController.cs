@@ -25,6 +25,7 @@ namespace Controller
         
         //Attack Controller
         private AttackController _attackController;
+        
         private bool IsInPoint
         {
             get

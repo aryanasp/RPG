@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 8072982277534429280}
   - component: {fileID: -5223018434663472159}
   m_Layer: 0
-  m_Name: Fire Spell
-  m_TagString: Untagged
+  m_Name: Fire Projectile
+  m_TagString: Fire Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

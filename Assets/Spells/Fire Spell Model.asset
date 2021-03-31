@@ -10,9 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b8df40c0c5ab5e41a788b658b202718, type: 3}
-  m_Name: New Fire Spell Model
+  m_Name: Fire Spell Model
   m_EditorClassIdentifier: 
-  coolDown: 0
-  damage: 0
-  manaCost: 0
+  coolDown: 4
+  castTime: 2
+  damage: 10
+  manaCost: 10
   healthCost: 0
+  projectileSpeed: 0
+  projectilePrefab: {fileID: 8433826890000499641, guid: 333c4b03ffde21b4d9f5d93879fd3839,
+    type: 3}

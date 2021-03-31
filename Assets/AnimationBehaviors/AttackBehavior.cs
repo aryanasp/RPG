@@ -7,13 +7,15 @@ namespace AnimationBehaviors
     {
         private MovementController _movementController;
         private AttackController _attackController;
+        
         private static readonly int AnimatorAttack = Animator.StringToHash("attack");
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            _movementController = animator.gameObject.GetComponent<MovementController>();
-            _attackController = animator.gameObject.GetComponent<AttackController>();
+            var animatedGameObject = animator.gameObject;
+            _movementController = animatedGameObject.GetComponent<MovementController>();
+            _attackController = animatedGameObject.GetComponent<AttackController>();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

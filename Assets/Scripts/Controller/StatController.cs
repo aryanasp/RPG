@@ -59,6 +59,12 @@ namespace Controller
             CurrentStat.ChangeStatValue(amount);
             CurrentStat.UpdateUI();
         }
+
+        public bool IsStatValueEnough(string statName, float amount)
+        {
+            ChangeStat(Stats[statName]);
+            return CurrentStat.StatCurrentValue >= amount;
+        }
         
         void Start()
         {
