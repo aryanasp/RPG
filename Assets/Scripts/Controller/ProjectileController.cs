@@ -7,11 +7,14 @@ namespace Controller
     {
         //TODO : How we should pass fire spell info to projectile controller ? here or SpellController : CastFireSpell
         [SerializeField] private float projectileSpeed;
+        public GameObject DamageSource { get; private set; }
+        public GameObject DamageDestination { get; private set; }
         // Start is called before the first frame update
 
-        void Start()
+        void Awake()
         {
-            
+            DamageSource = transform.parent.gameObject;
+            transform.SetParent(null);
         }
 
         // Update is called once per frame
@@ -25,9 +28,10 @@ namespace Controller
         {
             if (other.gameObject.CompareTag("Enemy"))
             {
+                DamageDestination = other.gameObject;
+                DamageDestination.GetComponent<DebuffController>().DebuffReset();
                 Destroy(gameObject);
             }
-            
         }
     }
 }

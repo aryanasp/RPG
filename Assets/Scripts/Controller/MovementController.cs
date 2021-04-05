@@ -8,24 +8,25 @@ namespace Controller
         public float MoveSpeed => moveSpeed;
         private Rigidbody2D Rigidbody { get; set; }
         public float DirectionAngle { get; private set; }
+
         public Vector2 MoveDirection { get; private set; }
+
         //States
         public bool IsMoving => MoveDirection.SqrMagnitude() > 0.1f;
-        
-        //Keys management
-        private KeyController _keyController;
-        
-        //Move point
 
+        //Next target point which is set from other movement components
+        public Vector2 NextTargetPoint { get; set; }
+
+        //Move point
         public Vector2 TargetPoint { get; private set; }
 
-        //image which show up when u determine destination
-        [SerializeField] private GameObject targetPointGameObject;
-        private GameObject _pointGameObject;
-        
+
         //Attack Controller
         private AttackController _attackController;
-        
+
+        //is everything for moving
+        private bool _canMove = true;
+
         private bool IsInPoint
         {
             get
@@ -38,14 +39,14 @@ namespace Controller
 
         void Awake()
         {
-            _keyController = GetComponent<KeyController>();
-            _attackController = GetComponent < AttackController>();
+            _attackController = GetComponent<AttackController>();
         }
-        
+
         // Start is called before the first frame update
         void Start()
         {
-            MoveDirection = Vector2.zero;
+            NextTargetPoint = Vector2.right;
+            MoveDirection = Vector2.right;
             TargetPoint = new Vector2(0, 0);
             DirectionAngle = -90;
             Rigidbody = GetComponent<Rigidbody2D>();
@@ -56,27 +57,15 @@ namespace Controller
         {
             //Apply 0 movement speed in the starting of each frame
             MoveDirection = Vector2.zero;
-            //Handle inputs
-            HandleInput();
-            //Determine player destination to go where
-            Go2Point();
-            //Determine player direction
+            //Handle next target point
+            TargetPoint = NextTargetPoint;
+            //Determine character destination to go where
+            FindVector2Destination();
+            //Determine character direction
             FindStandingDirection();
-            
-        }
-        
-        void HandleInput()
-        {
-            if (_keyController.MovementInputs["Walk"])
+            if (!_canMove)
             {
-                if (!_attackController.IsAttacking)
-                {
-                    //Animate player destination point cursor
-                    TargetPointCursor();
-                    //Find player path target point
-                    TargetPoint = new Vector2(_keyController.MousePositions["X"], _keyController.MousePositions["Y"]);
-                }
-                
+                StopWalk(true);
             }
         }
 
@@ -84,16 +73,15 @@ namespace Controller
         {
             Move();
         }
-        
-        void Go2Point()
+
+        void FindVector2Destination()
         {
             if (!_attackController.IsAttacking)
             {
                 MoveDirection = !IsInPoint ? (TargetPoint - (Vector2) transform.position).normalized : Vector2.zero;
             }
-
         }
-        
+
         private void Move()
         {
             Rigidbody.velocity = MoveSpeed * MoveDirection.normalized;
@@ -111,21 +99,18 @@ namespace Controller
                 }
             }
         }
-        
-        private void TargetPointCursor()
+
+        public void StopWalk(bool condition, bool stopWithDestination = false)
         {
-            if (!_pointGameObject)
+            //TODO root needs to change direction but not go in direction
+            _canMove = !condition;
+            MoveDirection = Vector2.zero;
+            if (stopWithDestination)
             {
-                _pointGameObject = Instantiate(targetPointGameObject, TargetPoint, Quaternion.Euler(65, 0, 0), transform) as GameObject;
+                TargetPoint = transform.position;
+                NextTargetPoint = TargetPoint;
             }
             
         }
-
-        public void StopWalk()
-        {
-            MoveDirection = Vector2.zero;
-            TargetPoint = transform.position;
-        }
-        
     }
 }

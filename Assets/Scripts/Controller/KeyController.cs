@@ -14,7 +14,7 @@ namespace Controller
         
         //Mouse Positions
         public Dictionary<string, float> MousePositions;
-       
+        
         //Attack Keys
         private Dictionary<string, Action> _attackKeys;
         public Dictionary<string, bool> AttackInputs;

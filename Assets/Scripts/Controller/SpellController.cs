@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Model;
 using UnityEngine;
 
@@ -19,13 +20,26 @@ namespace Controller
         
         //Attack
         protected AttackController AttackController;
+
         
         public bool IsCastingSpell { private set; get; }
-        
+
         //Spell initialize variables
         //Spell model
         [SerializeField]
-        protected SpellModel spell;
+        private SpellModel spell;
+
+        public SpellModel Spell
+        {
+            get
+            {
+                return spell;
+            }
+            protected set
+            {
+                spell = value;
+            }
+        }
 
         //Time passed from the last time we did fire attack
         protected float AttackTp;
@@ -39,14 +53,14 @@ namespace Controller
 
         //Attack coroutine
         private Coroutine AttackCoroutine { get; set; }
-
+        
         protected virtual void Awake()
         {
             //fire spell initialize primary values for variables
             spell.Initialize();
             AttackController = GetComponent<AttackController>();
         }
-        
+
         protected virtual void Start()
         {
             StatController = GetComponent<StatController>();
@@ -63,7 +77,7 @@ namespace Controller
             return StatController.IsStatValueEnough(Health, spell.HealthCost) && StatController.IsStatValueEnough(Mana, spell.ManaCost);
         }
         
-        private void Update()
+        protected virtual void Update()
         {
             HandleAttack();
             CalculateLastAttackTimePassed();
@@ -101,21 +115,24 @@ namespace Controller
         
         private void StartAttack()
         {
-            MovementController.StopWalk();
+            MovementController.StopWalk(true, true);
             IsCastingSpell = true;
         }
 
         private void StopAttack()
         {
+            MovementController.StopWalk(false);
             if (AttackCoroutine != null)
             {
                 StopCoroutine(AttackCoroutine);
                 IsCastingSpell = false;
             }
         }
-        
-        
 
+        public virtual void Debuff(GameObject damageDestination, float time, Vector2 animationPosition)
+        {
+            
+        }
 
     }
 }
