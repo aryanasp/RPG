@@ -10,7 +10,9 @@ namespace Model
         [SerializeField] private float manaCost;
         [SerializeField] private float healthCost;
         [SerializeField] private float projectileSpeed;
+        [SerializeField] private float debuffDuration;
         [SerializeField] private GameObject projectilePrefab;
+        
         public float CoolDown { get; protected set; }
         
         public float CastTime { get; protected set; }
@@ -20,6 +22,8 @@ namespace Model
         public float ManaCost { get; protected set; }
 
         public float HealthCost { get; protected set; }
+        
+        public float DebuffDuration { get; protected set; }
         
         public GameObject ProjectilePrefab { get; protected set; }
         
@@ -32,6 +36,7 @@ namespace Model
             Damage = damage;
             ManaCost = manaCost;
             HealthCost = healthCost;
+            DebuffDuration = debuffDuration;
             projectileSpeed = ProjectileSpeed;
             ProjectilePrefab = projectilePrefab;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Model;
 using UnityEngine;
 
@@ -8,37 +9,30 @@ namespace Controller
     public abstract class SpellController : MonoBehaviour
     {
         //Stats
-        protected static readonly string Health = "Health";
-        protected static readonly string Mana = "Mana";
-        protected StatController StatController{ get; private set; }
+        protected const string Health = "Health";
+        protected const string Mana = "Mana";
+        protected StatController StatController { get; private set; }
 
         //Movement
         protected MovementController MovementController { get; private set; }
-        
+
         //Keys
         protected KeyController KeyController;
-        
+
         //Attack
         protected AttackController AttackController;
 
-        
+
         public bool IsCastingSpell { private set; get; }
 
         //Spell initialize variables
         //Spell model
-        [SerializeField]
-        private SpellModel spell;
+        [SerializeField] private SpellModel spell;
 
         public SpellModel Spell
         {
-            get
-            {
-                return spell;
-            }
-            protected set
-            {
-                spell = value;
-            }
+            get { return spell; }
+            protected set { spell = value; }
         }
 
         //Time passed from the last time we did fire attack
@@ -46,19 +40,35 @@ namespace Controller
 
         //Spell cool down, Time which need to be able to attack again
         protected float AttackCd;
-        
+
         //Spell cast time, Time elapse during spell is not fired but used
         protected float AttackCt;
         public bool CanAttack => (AttackTp >= AttackCd) && (IsResourcesEnough());
 
+        //Extracting debuff controllers lists
+        //Spell projectiles list which is leased from spell caster
+        protected List<ProjectileController> ProjectileControllersList;
+        protected List<DebuffController> DebuffControllersList;
+        protected List<DebuffController> InitializedDebuffControllersList;
+
+        // protected GameObject SpellEffectGameObject;
+
+        protected DebuffMethodsModel DebuffMethods;
+
         //Attack coroutine
         private Coroutine AttackCoroutine { get; set; }
-        
+
+
         protected virtual void Awake()
         {
             //fire spell initialize primary values for variables
             spell.Initialize();
             AttackController = GetComponent<AttackController>();
+            //Extracting debuff controllers lists initialization
+            ProjectileControllersList = new List<ProjectileController>();
+            DebuffControllersList = new List<DebuffController>();
+            InitializedDebuffControllersList = new List<DebuffController>();
+            DebuffMethods = new DebuffMethodsModel();
         }
 
         protected virtual void Start()
@@ -74,13 +84,63 @@ namespace Controller
 
         private bool IsResourcesEnough()
         {
-            return StatController.IsStatValueEnough(Health, spell.HealthCost) && StatController.IsStatValueEnough(Mana, spell.ManaCost);
+            return StatController.IsStatValueEnough(Health, spell.HealthCost) &&
+                   StatController.IsStatValueEnough(Mana, spell.ManaCost);
         }
-        
+
         protected virtual void Update()
         {
             HandleAttack();
             CalculateLastAttackTimePassed();
+            ExtractDamageReceiversDebuffControllers();
+        }
+
+
+        private void ExtractDamageReceiversDebuffControllers()
+        {
+            //Projectiles list which should remove from main list
+            List<ProjectileController> removeProjectilesList = new List<ProjectileController>();
+            //Find collides which have collision with a game object
+            foreach (ProjectileController projectile in ProjectileControllersList)
+            {
+                var damageDestination = projectile.DamageDestination;
+                //Add them to debuff controller to do some debuff on the debuff destination
+                //Add the to remove projectiles list to removing from main list
+                if (damageDestination != null)
+                {
+                    DebuffControllersList.Add(damageDestination.GetComponent<DebuffController>());
+                    removeProjectilesList.Add(projectile);
+                }
+            }
+
+            //Remove projectiles which have collision with a game object from main list
+            foreach (ProjectileController projectile in removeProjectilesList)
+            {
+                if (ProjectileControllersList.Contains(projectile)
+                ) //maybe game object destroyed in this time so we check 
+                {
+                    ProjectileControllersList.Remove(projectile);
+                }
+            }
+
+            //Find damage receivers debuff controllers
+            foreach (DebuffController debuffController in DebuffControllersList)
+            {
+                if (!InitializedDebuffControllersList.Contains(debuffController))
+                {
+                    debuffController.DoDebuff += Debuff;
+                    InitializedDebuffControllersList.Add(debuffController);
+                }
+            }
+
+            //Remove damage receivers from debuff controllers which are initialized
+            foreach (DebuffController debuffController in InitializedDebuffControllersList)
+            {
+                if (InitializedDebuffControllersList.Contains(debuffController))
+                {
+                    DebuffControllersList.Remove(debuffController);
+                }
+            }
         }
 
         private void CalculateLastAttackTimePassed()
@@ -90,7 +150,7 @@ namespace Controller
         }
 
         protected abstract void CastSpell();
-        
+
         void HandleAttack()
         {
             if (!IsCastingSpell && CanAttack)
@@ -103,16 +163,15 @@ namespace Controller
         }
 
         protected abstract bool HandleInput();
-        
+
         private IEnumerator Attack()
         {
-            
             StartAttack();
             yield return new WaitForSeconds(AttackCt);
             CastSpell();
             StopAttack();
         }
-        
+
         private void StartAttack()
         {
             MovementController.StopWalk(true, true);
@@ -129,10 +188,44 @@ namespace Controller
             }
         }
 
-        public virtual void Debuff(GameObject damageDestination, float time, Vector2 animationPosition)
+        private void Debuff(GameObject damageDestination, int slotID, Vector2 animationPosition)
         {
-            
+            //Debuff status for current debuff
+            var debuffStatus = damageDestination.GetComponent<DebuffController>().DebuffStatusList[slotID];
+            ExecuteDebuffs(damageDestination, debuffStatus.TimePassedFromDebuff);
+            if (debuffStatus.TimePassedFromDebuff < Spell.DebuffDuration)
+            {
+                
+                //TODO animation things should go in behaviour components
+                if (debuffStatus.IsInDebuff)
+                {
+                    
+                    DebuffEffectGameObject(animationPosition);
+                    debuffStatus.IsInDebuff = false;
+                }
+            }
+            else
+            {
+                //Cancelling debuff
+                CancelDebuff(damageDestination, slotID);
+            }
         }
 
+        protected virtual void CancelDebuff(GameObject damageDestination, int slotId)
+        {
+            var debuffController = damageDestination.GetComponent<DebuffController>();
+            var debuffStatus = debuffController.DebuffStatusList[slotId];
+            if (InitializedDebuffControllersList.Contains(debuffController))
+            {
+                InitializedDebuffControllersList.Remove(debuffController);
+                debuffController.DoDebuff -= Debuff;
+                debuffStatus.FreeDebuffSlot();
+            }
+        }
+
+        protected abstract GameObject DebuffEffectGameObject(Vector2 animationPosition);
+
+
+        protected abstract void ExecuteDebuffs(GameObject damageDestination, float time);
     }
 }

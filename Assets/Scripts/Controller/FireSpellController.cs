@@ -21,7 +21,15 @@ namespace Controller
         {
             return KeyController.AttackInputs[Fire];
         }
-        
-        
+
+        protected override GameObject DebuffEffectGameObject(Vector2 animationPosition)
+        {
+            return null;
+        }
+
+        protected override void ExecuteDebuffs(GameObject damageDestination, float time)
+        {
+            
+        }
     }
 }

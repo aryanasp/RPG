@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Model
 {
-    public class DebuffModel
+    public class DebuffMethodsModel
     {
         public void Root(MovementController movementController, bool rootCondition)
         {

@@ -29,7 +29,7 @@ namespace Controller
             if (other.gameObject.CompareTag("Enemy"))
             {
                 DamageDestination = other.gameObject;
-                DamageDestination.GetComponent<DebuffController>().DebuffReset();
+                DamageDestination.GetComponent<DebuffController>().DebuffReset(gameObject.tag);
                 Destroy(gameObject);
             }
         }

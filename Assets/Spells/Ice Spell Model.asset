@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e105de0bd8f84f14a10d4867d144cded, type: 3}
   m_Name: Ice Spell Model
   m_EditorClassIdentifier: 
-  coolDown: 10
-  castTime: 2
+  coolDown: 0
+  castTime: 0
   damage: 7
-  manaCost: 20
+  manaCost: 0
   healthCost: 0
   projectileSpeed: 0
+  debuffDuration: 4
   projectilePrefab: {fileID: 8433826890000499641, guid: a070e8b439cbdc44f9e13773af2e2005,
     type: 3}
   freezeAreaPrefab: {fileID: 236304758187644836, guid: e6cf0973cd110ca45b27159707a84625,
     type: 3}
-  freezeDebuffDuration: 2
