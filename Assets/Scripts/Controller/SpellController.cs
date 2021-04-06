@@ -57,8 +57,7 @@ namespace Controller
 
         //Attack coroutine
         private Coroutine AttackCoroutine { get; set; }
-
-
+        
         protected virtual void Awake()
         {
             //fire spell initialize primary values for variables
@@ -191,7 +190,7 @@ namespace Controller
         private void Debuff(GameObject damageDestination, int slotID, Vector2 animationPosition)
         {
             //Debuff status for current debuff
-            var debuffStatus = damageDestination.GetComponent<DebuffController>().DebuffStatusList[slotID];
+            var debuffStatus = damageDestination.GetComponent<DebuffController>().DebuffsStatusList[slotID];
             ExecuteDebuffs(damageDestination, debuffStatus.TimePassedFromDebuff);
             if (debuffStatus.TimePassedFromDebuff < Spell.DebuffDuration)
             {
@@ -214,7 +213,7 @@ namespace Controller
         protected virtual void CancelDebuff(GameObject damageDestination, int slotId)
         {
             var debuffController = damageDestination.GetComponent<DebuffController>();
-            var debuffStatus = debuffController.DebuffStatusList[slotId];
+            var debuffStatus = debuffController.DebuffsStatusList[slotId];
             if (InitializedDebuffControllersList.Contains(debuffController))
             {
                 InitializedDebuffControllersList.Remove(debuffController);

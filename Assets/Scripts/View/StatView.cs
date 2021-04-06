@@ -47,7 +47,10 @@ namespace View
     
         private void UpdateUI(float currentValue, float maxValue)
         {
-            statBarText.text = currentValue + "/" + maxValue;
+            if (statBarText != null)
+            {
+                statBarText.text = currentValue + "/" + maxValue;
+            }
             _uiShouldUpdate = true;
             _currentValue = currentValue;
             _maxValue = maxValue;

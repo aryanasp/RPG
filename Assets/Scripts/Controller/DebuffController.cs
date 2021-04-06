@@ -9,17 +9,17 @@ namespace Controller
         [SerializeField] private Transform underLegs;
         
         //Debuffs status in list
-        public DebuffStatus[] DebuffStatusList;
+        public DebuffStatus[] DebuffsStatusList;
         
         public event Action<GameObject, int, Vector2> DoDebuff;
         
         private void Awake()
         {
-            DebuffStatusList = new DebuffStatus[100];
+            DebuffsStatusList = new DebuffStatus[100];
             //Initialize debuff status list
-            for (int i = 0; i < DebuffStatusList.Length; i++)
+            for (int i = 0; i < DebuffsStatusList.Length; i++)
             {
-                DebuffStatusList[i] = new DebuffStatus(i, "", 1000f, false);
+                DebuffsStatusList[i] = new DebuffStatus(i, "", 1000f, false);
             }
         }
 
@@ -27,14 +27,14 @@ namespace Controller
         {
             bool foundPastDebuff = false;
             //check if there is same debuff which is active in the same time
-            for (int i = 0; i < DebuffStatusList.Length; i++)
+            for (int i = 0; i < DebuffsStatusList.Length; i++)
             {
                 //reset debuff status
-                if (DebuffStatusList[i].DebuffName == debuffName)
+                if (DebuffsStatusList[i].DebuffName == debuffName)
                 {
                     foundPastDebuff = true;
-                    DebuffStatusList[i].IsInDebuff = true;
-                    DebuffStatusList[i].TimePassedFromDebuff = 0f;
+                    DebuffsStatusList[i].IsInDebuff = true;
+                    DebuffsStatusList[i].TimePassedFromDebuff = 0f;
                 }
             }
             //if there is no same debuff, create a new one
@@ -42,9 +42,9 @@ namespace Controller
             {
                 //reset debuff status
                 int element = AssignFreeDebuffSlot();
-                DebuffStatusList[element].DebuffName = debuffName;
-                DebuffStatusList[element].IsInDebuff = true;
-                DebuffStatusList[element].TimePassedFromDebuff = 0f;
+                DebuffsStatusList[element].DebuffName = debuffName;
+                DebuffsStatusList[element].IsInDebuff = true;
+                DebuffsStatusList[element].TimePassedFromDebuff = 0f;
             }
 
         }
@@ -59,7 +59,7 @@ namespace Controller
 
         private void IncrementTimePastFromDebuff()
         {
-            foreach (var debuffStatus in DebuffStatusList)
+            foreach (var debuffStatus in DebuffsStatusList)
             {
                 if (!debuffStatus.IsFreeSlot)
                 {
@@ -70,7 +70,7 @@ namespace Controller
 
         private void Debuff()
         {
-            foreach (var debuffStatus in DebuffStatusList)
+            foreach (var debuffStatus in DebuffsStatusList)
             {
                 if (!debuffStatus.IsFreeSlot)
                 {
@@ -82,14 +82,14 @@ namespace Controller
 
         public int AssignFreeDebuffSlot()
         {
-            for (int i = 0; i < DebuffStatusList.Length; i++)
+            for (int i = 0; i < DebuffsStatusList.Length; i++)
             {
-                if (DebuffStatusList[i].IsFreeSlot)
+                if (DebuffsStatusList[i].IsFreeSlot)
                 {
                     return i;
                 }
             }
-            throw new Exception("there is no free slot");
+            throw new Exception("There is no free slot");
         }
         
     }

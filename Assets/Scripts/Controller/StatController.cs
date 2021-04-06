@@ -9,8 +9,7 @@ namespace Controller
         private StatModel CurrentStat { get; set; }
         
         public Dictionary<string, StatModel> Stats { private set; get; }
-
-    
+        
         // Start is called before the first frame update
         private void Awake()
         {
@@ -22,17 +21,16 @@ namespace Controller
             Stats = new Dictionary<string, StatModel>();
             //Health
             CurrentStat = new HealthModel();
-            CurrentStat.Enter(70, 100);
+            CurrentStat.Enter(100, 100);
             Stats.Add(CurrentStat.StatName, CurrentStat);
             CurrentStat.Exit();
             //Mana
             CurrentStat = new ManaModel();
-            CurrentStat.Enter(40, 50);
+            CurrentStat.Enter(50, 50);
             Stats.Add(CurrentStat.StatName, CurrentStat);
             CurrentStat.Exit();
         }
-    
-    
+        
         private void ChangeStat(StatModel newStat)
         {
             Stats[CurrentStat.StatName] = CurrentStat;
