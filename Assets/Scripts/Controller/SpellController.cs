@@ -69,6 +69,7 @@ namespace Controller
             InitializedDebuffControllersList = new List<DebuffController>();
             DebuffMethods = new DebuffMethodsModel();
         }
+        
 
         protected virtual void Start()
         {
@@ -93,8 +94,7 @@ namespace Controller
             CalculateLastAttackTimePassed();
             ExtractDamageReceiversDebuffControllers();
         }
-
-
+        
         private void ExtractDamageReceiversDebuffControllers()
         {
             //Projectiles list which should remove from main list
@@ -107,6 +107,7 @@ namespace Controller
                 //Add the to remove projectiles list to removing from main list
                 if (damageDestination != null)
                 {
+                    damageDestination.GetComponent<DamageController>().DealDamageAction += DealDamage;
                     DebuffControllersList.Add(damageDestination.GetComponent<DebuffController>());
                     removeProjectilesList.Add(projectile);
                 }
@@ -127,7 +128,7 @@ namespace Controller
             {
                 if (!InitializedDebuffControllersList.Contains(debuffController))
                 {
-                    debuffController.DoDebuff += Debuff;
+                    debuffController.DoDebuffAction += DebuffAction;
                     InitializedDebuffControllersList.Add(debuffController);
                 }
             }
@@ -148,7 +149,15 @@ namespace Controller
             AttackTp += Time.deltaTime;
         }
 
-        protected abstract void CastSpell();
+        protected virtual void CastSpell()
+        {
+            AttackTp = 0f;
+            GameObject spellGameObject = Instantiate(Spell.ProjectilePrefab, transform.position,
+                Quaternion.Euler(0, 0, MovementController.DirectionAngle + 90), transform) as GameObject;
+            ProjectileControllersList.Add(spellGameObject.GetComponent<ProjectileController>());
+            StatController.ChangeStatValue(Health, -Spell.HealthCost);
+            StatController.ChangeStatValue(Mana, -Spell.ManaCost);
+        }
 
         void HandleAttack()
         {
@@ -159,6 +168,12 @@ namespace Controller
                     AttackCoroutine = StartCoroutine(Attack());
                 }
             }
+        }
+
+        private void DealDamage(StatController statController)
+        {
+            statController.ChangeStatValue("Health", -Spell.Damage);
+            statController.gameObject.GetComponent<DamageController>().DealDamageAction -= DealDamage;
         }
 
         protected abstract bool HandleInput();
@@ -187,7 +202,7 @@ namespace Controller
             }
         }
 
-        private void Debuff(GameObject damageDestination, int slotID, Vector2 animationPosition)
+        private void DebuffAction(GameObject damageDestination, int slotID, Vector2 animationPosition)
         {
             //Debuff status for current debuff
             var debuffStatus = damageDestination.GetComponent<DebuffController>().DebuffsStatusList[slotID];
@@ -217,7 +232,7 @@ namespace Controller
             if (InitializedDebuffControllersList.Contains(debuffController))
             {
                 InitializedDebuffControllersList.Remove(debuffController);
-                debuffController.DoDebuff -= Debuff;
+                debuffController.DoDebuffAction -= DebuffAction;
                 debuffStatus.FreeDebuffSlot();
             }
         }

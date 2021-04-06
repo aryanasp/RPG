@@ -23,10 +23,12 @@ namespace View
         {
             _stats = character.Stats;
         }
+        
         private void OnEnable()
         {
             _stats[gameObject.tag].StatUpdater += UpdateUI;
         }
+        
         private void OnDisable()
         {
             _stats[gameObject.tag].StatUpdater -= UpdateUI;

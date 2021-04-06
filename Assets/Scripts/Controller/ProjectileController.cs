@@ -26,11 +26,16 @@ namespace Controller
         //TODO Handle player and enemy projectiles
         void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.CompareTag("Enemy"))
+            
+            if (!other.gameObject.CompareTag(DamageSource.tag))
             {
                 DamageDestination = other.gameObject;
                 DamageDestination.GetComponent<DebuffController>().DebuffReset(gameObject.tag);
                 Destroy(gameObject);
+            }
+            else
+            {
+                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), other, true);
             }
         }
     }

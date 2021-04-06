@@ -12,11 +12,7 @@ namespace Controller
         
         protected override void CastSpell()
         {
-            AttackTp = 0f;
-            GameObject iceSpellGameObject = Instantiate(Spell.ProjectilePrefab, transform.position,
-                Quaternion.Euler(0, 0, MovementController.DirectionAngle + 90), transform);
-            ProjectileControllersList.Add(iceSpellGameObject.GetComponent<ProjectileController>());
-            StatController.ChangeStatValue(Mana, -Spell.ManaCost);
+            base.CastSpell();
         }
 
         protected override bool HandleInput()

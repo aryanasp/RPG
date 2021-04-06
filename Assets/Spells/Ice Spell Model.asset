@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e105de0bd8f84f14a10d4867d144cded, type: 3}
   m_Name: Ice Spell Model
   m_EditorClassIdentifier: 
-  coolDown: 0
-  castTime: 0
+  coolDown: 5
+  castTime: 2
   damage: 7
-  manaCost: 0
+  manaCost: 15
   healthCost: 0
   projectileSpeed: 0
   debuffDuration: 4

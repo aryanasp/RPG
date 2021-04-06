@@ -11,7 +11,7 @@ namespace Controller
         //Debuffs status in list
         public DebuffStatus[] DebuffsStatusList;
         
-        public event Action<GameObject, int, Vector2> DoDebuff;
+        public event Action<GameObject, int, Vector2> DoDebuffAction;
         
         private void Awake()
         {
@@ -74,13 +74,12 @@ namespace Controller
             {
                 if (!debuffStatus.IsFreeSlot)
                 {
-                    DoDebuff?.Invoke(gameObject, debuffStatus.DebuffSlotId, underLegs.position);
+                    DoDebuffAction?.Invoke(gameObject, debuffStatus.DebuffSlotId, underLegs.position);
                 }
             }
-            
         }
 
-        public int AssignFreeDebuffSlot()
+        private int AssignFreeDebuffSlot()
         {
             for (int i = 0; i < DebuffsStatusList.Length; i++)
             {
