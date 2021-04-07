@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b8df40c0c5ab5e41a788b658b202718, type: 3}
   m_Name: Fire Spell Model
   m_EditorClassIdentifier: 
-  coolDown: 5
-  castTime: 1
+  coolDown: 0
+  castTime: 0
   damage: 12
   manaCost: 10
   healthCost: 10

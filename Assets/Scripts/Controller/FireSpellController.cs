@@ -7,7 +7,12 @@ namespace Controller
     {
         //Spell Input Name
         private static readonly string Fire = "Fire";
-        
+
+        protected override bool ShouldInitializeAction(DebuffStatus debuffStatus)
+        {
+            return debuffStatus.DebuffName == "Fire Projectile";
+        }
+
         protected override void CastSpell()
         {
             base.CastSpell();
@@ -28,14 +33,12 @@ namespace Controller
         
         
         //Animate debuff runs in every frame which is in debuff duration
-        protected override GameObject DebuffEffectGameObject(Transform animationTransform)
+        protected override void DebuffEffectGameObject(Transform animationTransform)
         {
             var spellEffect = Instantiate(((FireSpellModel) Spell).BurnCharacterPrefab, animationTransform.position,
                 Quaternion.identity, animationTransform);
             Destroy(spellEffect, Spell.DebuffDuration);
-            return spellEffect;
         }
 
-        
     }
 }

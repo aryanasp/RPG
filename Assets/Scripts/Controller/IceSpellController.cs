@@ -9,7 +9,12 @@ namespace Controller
     {
         //Spell Input Name
         private static readonly string Ice = "Ice";
-        
+
+        protected override bool ShouldInitializeAction(DebuffStatus debuffStatus)
+        {
+            return debuffStatus.DebuffName == "Ice Projectile";
+        }
+
         protected override void CastSpell()
         {
             base.CastSpell();
@@ -19,7 +24,8 @@ namespace Controller
         {
             return KeyController.AttackInputs[Ice];
         }
-
+            
+        
         //Execute debuff runs in every frame which is in debuff duration
         protected override void ExecuteDebuffs(GameObject damageDestination, DebuffStatus debuffStatus, float time)
         {
@@ -28,12 +34,11 @@ namespace Controller
         }
 
         //Animate debuff runs in every frame which is in debuff duration
-        protected override GameObject DebuffEffectGameObject(Transform animationTransform)
+        protected override void DebuffEffectGameObject(Transform animationTransform)
         {
             var spellEffect = Instantiate(((IceSpellModel) Spell).FreezeAreaPrefab, animationTransform.position,
                 Quaternion.identity, animationTransform);
             Destroy(spellEffect, Spell.DebuffDuration);
-            return spellEffect;
         }
     }
 }

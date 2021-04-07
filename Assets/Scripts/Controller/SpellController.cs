@@ -128,7 +128,14 @@ namespace Controller
             {
                 if (!InitializedDebuffControllersList.Contains(debuffController))
                 {
-                    debuffController.DoDebuffAction += Debuff;
+                    foreach (var debuffStatus in debuffController.DebuffsStatusList)
+                    {
+                        if (ShouldInitializeAction(debuffStatus))
+                        {
+                            debuffStatus.ResetAction();
+                            debuffStatus.DoDebuffAction += Debuff;
+                        }
+                    }
                     InitializedDebuffControllersList.Add(debuffController);
                 }
             }
@@ -142,6 +149,8 @@ namespace Controller
                 }
             }
         }
+
+        protected abstract bool ShouldInitializeAction(DebuffStatus debuffStatus);
 
         private void CalculateLastAttackTimePassed()
         {
@@ -231,12 +240,12 @@ namespace Controller
             if (InitializedDebuffControllersList.Contains(debuffController))
             {
                 InitializedDebuffControllersList.Remove(debuffController);
-                debuffController.DoDebuffAction -= Debuff;
+                debuffController.DebuffsStatusList[slotId].DoDebuffAction -= Debuff;
                 debuffStatus.FreeDebuffSlot();
             }
         }
 
-        protected abstract GameObject DebuffEffectGameObject(Transform animationTransform);
+        protected abstract void DebuffEffectGameObject(Transform animationTransform);
 
 
         protected abstract void ExecuteDebuffs(GameObject damageDestination, DebuffStatus debuffStatus, float time);
