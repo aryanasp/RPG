@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Model;
+using UnityEngine;
 
 namespace Controller
 {
@@ -6,8 +7,6 @@ namespace Controller
     {
         //Spell Input Name
         private static readonly string Fire = "Fire";
-        
-        
         
         protected override void CastSpell()
         {
@@ -19,14 +18,24 @@ namespace Controller
             return KeyController.AttackInputs[Fire];
         }
 
-        protected override GameObject DebuffEffectGameObject(Vector2 animationPosition)
+        
+        //Execute debuff runs in every frame which is in debuff duration
+        protected override void ExecuteDebuffs(GameObject damageDestination, DebuffStatus debuffStatus, float time)
         {
-            return null;
+            DebuffMethods.DamagePerSecond(damageDestination.GetComponent<StatController>(),
+                debuffStatus, ((FireSpellModel) Spell).BurningTicks, ((FireSpellModel) Spell).DamagePerTick, time, Spell.DebuffDuration);
+        }
+        
+        
+        //Animate debuff runs in every frame which is in debuff duration
+        protected override GameObject DebuffEffectGameObject(Transform animationTransform)
+        {
+            var spellEffect = Instantiate(((FireSpellModel) Spell).BurnCharacterPrefab, animationTransform.position,
+                Quaternion.identity, animationTransform);
+            Destroy(spellEffect, Spell.DebuffDuration);
+            return spellEffect;
         }
 
-        protected override void ExecuteDebuffs(GameObject damageDestination, float time)
-        {
-            
-        }
+        
     }
 }

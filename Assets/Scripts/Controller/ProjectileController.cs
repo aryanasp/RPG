@@ -26,7 +26,6 @@ namespace Controller
         //TODO Handle player and enemy projectiles
         void OnTriggerEnter2D(Collider2D other)
         {
-            
             if (!other.gameObject.CompareTag(DamageSource.tag))
             {
                 DamageDestination = other.gameObject;

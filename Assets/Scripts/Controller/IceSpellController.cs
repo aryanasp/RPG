@@ -21,17 +21,17 @@ namespace Controller
         }
 
         //Execute debuff runs in every frame which is in debuff duration
-        protected override void ExecuteDebuffs(GameObject damageDestination, float time)
+        protected override void ExecuteDebuffs(GameObject damageDestination, DebuffStatus debuffStatus, float time)
         {
             DebuffMethods.Root(damageDestination.GetComponent<MovementController>(),
                 Spell.DebuffDuration >= time);
         }
 
         //Animate debuff runs in every frame which is in debuff duration
-        protected override GameObject DebuffEffectGameObject(Vector2 animationPosition)
+        protected override GameObject DebuffEffectGameObject(Transform animationTransform)
         {
-            var spellEffect = Instantiate(((IceSpellModel) Spell).FreezeAreaPrefab, animationPosition,
-                Quaternion.identity);
+            var spellEffect = Instantiate(((IceSpellModel) Spell).FreezeAreaPrefab, animationTransform.position,
+                Quaternion.identity, animationTransform);
             Destroy(spellEffect, Spell.DebuffDuration);
             return spellEffect;
         }

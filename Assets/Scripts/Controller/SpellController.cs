@@ -128,7 +128,7 @@ namespace Controller
             {
                 if (!InitializedDebuffControllersList.Contains(debuffController))
                 {
-                    debuffController.DoDebuffAction += DebuffAction;
+                    debuffController.DoDebuffAction += Debuff;
                     InitializedDebuffControllersList.Add(debuffController);
                 }
             }
@@ -202,26 +202,25 @@ namespace Controller
             }
         }
 
-        private void DebuffAction(GameObject damageDestination, int slotID, Vector2 animationPosition)
+        private void Debuff(GameObject damageDestination, int slotId, Transform animationTransform)
         {
             //Debuff status for current debuff
-            var debuffStatus = damageDestination.GetComponent<DebuffController>().DebuffsStatusList[slotID];
-            ExecuteDebuffs(damageDestination, debuffStatus.TimePassedFromDebuff);
+            var debuffStatus = damageDestination.GetComponent<DebuffController>().DebuffsStatusList[slotId];
+            ExecuteDebuffs(damageDestination, debuffStatus, debuffStatus.TimePassedFromDebuff);
             if (debuffStatus.TimePassedFromDebuff < Spell.DebuffDuration)
             {
                 
                 //TODO animation things should go in behaviour components
                 if (debuffStatus.IsInDebuff)
                 {
-                    
-                    DebuffEffectGameObject(animationPosition);
+                    DebuffEffectGameObject(animationTransform);
                     debuffStatus.IsInDebuff = false;
                 }
             }
             else
             {
                 //Cancelling debuff
-                CancelDebuff(damageDestination, slotID);
+                CancelDebuff(damageDestination, slotId);
             }
         }
 
@@ -232,14 +231,14 @@ namespace Controller
             if (InitializedDebuffControllersList.Contains(debuffController))
             {
                 InitializedDebuffControllersList.Remove(debuffController);
-                debuffController.DoDebuffAction -= DebuffAction;
+                debuffController.DoDebuffAction -= Debuff;
                 debuffStatus.FreeDebuffSlot();
             }
         }
 
-        protected abstract GameObject DebuffEffectGameObject(Vector2 animationPosition);
+        protected abstract GameObject DebuffEffectGameObject(Transform animationTransform);
 
 
-        protected abstract void ExecuteDebuffs(GameObject damageDestination, float time);
+        protected abstract void ExecuteDebuffs(GameObject damageDestination, DebuffStatus debuffStatus, float time);
     }
 }

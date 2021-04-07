@@ -12,12 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b8df40c0c5ab5e41a788b658b202718, type: 3}
   m_Name: Fire Spell Model
   m_EditorClassIdentifier: 
-  coolDown: 10
-  castTime: 2
-  damage: 60
+  coolDown: 5
+  castTime: 1
+  damage: 12
   manaCost: 10
   healthCost: 10
   projectileSpeed: 0
-  debuffDuration: 0
+  debuffDuration: 5
   projectilePrefab: {fileID: 8433826890000499641, guid: 333c4b03ffde21b4d9f5d93879fd3839,
+    type: 3}
+  burningTicks: 10
+  damagePerTick: 1.2
+  burnCharacterPrefab: {fileID: 358737597605821832, guid: 798e213c9a57a724692ff2eb02571d65,
     type: 3}
