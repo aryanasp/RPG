@@ -50,10 +50,6 @@ namespace View
                 _character = value;
                 var eventArgs = new CharacterClickedEventArgs {Character = _character};
                 OnClicked(this, eventArgs);
-                foreach (var statView in GetComponentsInChildren<StatView>())
-                {
-                    statView.Character = _character;
-                }
             }
         }
     }

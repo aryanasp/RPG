@@ -22,5 +22,22 @@ namespace Model
                 Model = new HudModel();
             }
         }
+        
+        public interface ICharacterStatModelFactory
+        {
+            // Get the created model
+            ICharacterStatModel Model { get; }
+        }
+
+        public class CharacterStatModelFactory : ICharacterStatModelFactory
+        {
+            public ICharacterStatModel Model { get; private set; }
+
+            // Create the model
+            public CharacterStatModelFactory(float[] healthSetting, float[] manaSetting)
+            {
+                Model = new CharacterStatModel(healthSetting, manaSetting);
+            }
+        }
     }
 }

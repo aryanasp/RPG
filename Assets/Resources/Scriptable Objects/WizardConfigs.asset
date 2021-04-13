@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0436ca45a1b417c85b02c06fb0baf9e, type: 3}
+  m_Name: WizardConfigs
+  m_EditorClassIdentifier: 
+  characterPrefab: {fileID: 406095715460684227, guid: ffb002574acfa244cb25cf739af64060,
+    type: 3}
+  race: 0
+  movementSpeed: 1.1
+  maxHealthInitialValue: 50
+  healthInitialValue: 50
+  maxManaInitialValue: 200
+  manaInitialValue: 150

@@ -41,8 +41,6 @@ namespace View
     public class CharacterStatInitializedEventArgs : EventArgs
     {
         public string Key;
-        public float InitialValue { set; get; }
-        public float InitialMaxValue { set; get; }
     }
 
     public interface ICharacterStatView
@@ -61,10 +59,6 @@ namespace View
         [SerializeField] private Image statBarImage;
         
         [SerializeField] private Text statBarText;
-
-        [SerializeField] private float initialValue;
-
-        [SerializeField] private float initialMaxValue;
         
         //TODO should go to model
         [SerializeField] private float lerpSpeed;
@@ -103,7 +97,7 @@ namespace View
         {
             var eventArgs = new CharacterStatInitializedEventArgs
             {
-                Key = gameObject.tag, InitialMaxValue = initialMaxValue, InitialValue = initialValue
+                Key = gameObject.tag
             };
             OnStatInitialized(this, eventArgs);
         }

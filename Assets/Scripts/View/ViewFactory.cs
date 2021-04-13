@@ -43,7 +43,6 @@ namespace View
             {
                 get => _views;
             }
-
             
             // Create the views
             public HudStatViewFactory()
@@ -55,7 +54,30 @@ namespace View
                     {
                         _views.Add(hudStatView.GetComponent<IHudStatView>());
                     }
-                    
+                }
+            }
+        }
+        
+        public interface ICharacterStatViewFactory
+        {
+            List<ICharacterStatView> Views { get; }
+        }
+        
+        public class CharacterStatViewFactory
+        {
+            private List<ICharacterStatView> _views = new List<ICharacterStatView>();
+
+            public List<ICharacterStatView> Views
+            {
+                get => _views;
+            }
+
+            public CharacterStatViewFactory(GameObject characterGameObject)
+            {
+                var instances = characterGameObject.GetComponentsInChildren<ICharacterStatView>();
+                foreach (var characterStatView in instances)
+                {
+                    _views.Add(characterStatView);
                 }
             }
         }

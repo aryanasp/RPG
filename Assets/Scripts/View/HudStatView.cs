@@ -15,7 +15,6 @@ namespace View
         string StatKey {get; }
         GameObject Character { get; set; }
         Dictionary<string, float>  StatConfigs { set; get; }
-
         event EventHandler<HudStatBarInitializedEventArgs> OnStatInitialized;
     }
     

@@ -41,7 +41,7 @@ namespace Controller
 
         private void HandleStatInitializedFromViewInput(object sender, CharacterStatInitializedEventArgs e)
         {
-            _characterStatModel.Initialize(e.Key, e.InitialValue, e.InitialMaxValue);
+            _characterStatModel.Initialize(e.Key);
         }
 
         

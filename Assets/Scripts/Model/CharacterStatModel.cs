@@ -25,7 +25,6 @@ namespace Model
         
         float StatValuePercentage { get; }
 
-        void Initialize(float current, float max);
         void ChangeStatValue(float amount, bool isIncreasingly, bool isPercentile, bool isFromMaxValue);
     }
     
@@ -87,14 +86,7 @@ namespace Model
                 return 0;
             }
         }
-
-
-        public void Initialize(float current, float max)
-        {
-            StatMaxValue = max;
-            StatCurrentValue = current;
-        }
-
+        
         public void ChangeStatValue(float amount, bool isIncreasingly, bool isPercentile, bool isFromMaxValue)
         {
             var changeValue = amount * (isIncreasingly ? 1 : -1);
@@ -177,14 +169,7 @@ namespace Model
                 return 0;
             }
         }
-
-
-        public void Initialize(float current, float max)
-        {
-            StatMaxValue = max;
-            StatCurrentValue = current;
-        }
-
+        
         public void ChangeStatValue(float amount, bool isIncreasingly, bool isPercentile, bool isFromMaxValue)
         {
             var changeValue = amount * (isIncreasingly ? 1 : -1);
@@ -221,7 +206,7 @@ namespace Model
         event EventHandler<CharacterStatEventArgs> OnStatChanged;
         ICharacterStat Stat { set; get; }
 
-        void Initialize(string key, float currentValue, float maxValue);
+        void Initialize(string key);
 
         void SwitchStat(string key);
         void ChangeStatValue(string statKey, float amount, bool isIncreasingly, bool isPercentile,
@@ -239,23 +224,22 @@ namespace Model
         public ICharacterStat Stat { get; set; }
 
         // Constructor initializes stats initial values
-        public CharacterStatModel()
+        public CharacterStatModel(float[] healthSetting, float[] manaSetting)
         {
             _stats = new Dictionary<string, ICharacterStat>();
-            var initialHealthStat = new CharacterHealth(100, 100);
+            var initialHealthStat = new CharacterHealth(healthSetting[0], healthSetting[1]);
             _stats[initialHealthStat.Key] = initialHealthStat;
-            var initialManaStat = new CharacterMana(50, 50);
+            var initialManaStat = new CharacterMana(manaSetting[0], manaSetting[1]);
             _stats[initialManaStat.Key] = initialManaStat;
             Stat = initialHealthStat;
         }
 
-        public void Initialize(string key, float currentValue, float maxValue)
+        public void Initialize(string key)
         {
             Stat = _stats[key];
-            Stat.Initialize(currentValue, maxValue);
             var eventArgs = new CharacterStatEventArgs
             {
-                Stat = Stat, StatMaxValue = Stat.StatMaxValue, StatCurrentValue = Stat.StatCurrentValue
+                Stat = Stat
             };
             OnStatChanged(this, eventArgs);
         }

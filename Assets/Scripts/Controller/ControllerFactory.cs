@@ -33,5 +33,29 @@ namespace Controller
                 }
             }
         }
+        
+        public interface ICharacterStatControllerFactory
+        {
+            List<ICharacterStatController> Controllers { get; }
+        }
+        
+        public class CharacterStatControllerFactory : ICharacterStatControllerFactory
+        {
+            private List<ICharacterStatController> _controllers = new List<ICharacterStatController>();
+            
+            public List<ICharacterStatController> Controllers
+            {
+                get => _controllers;
+            }
+
+            public CharacterStatControllerFactory(ICharacterStatModel characterStatModel, List<ICharacterStatView> characterStatViews)
+            {
+                foreach (var characterStatView in characterStatViews)
+                {
+                    _controllers.Add(new CharacterStatController(characterStatModel, characterStatView));
+                }
+            }
+            
+        }
     }
 }
