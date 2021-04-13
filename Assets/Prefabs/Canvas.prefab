@@ -239,6 +239,7 @@ GameObject:
   - component: {fileID: 5994538894277719729}
   - component: {fileID: 5994538894277719728}
   - component: {fileID: 5994538894277719731}
+  - component: {fileID: 1571694484}
   m_Layer: 5
   m_Name: Mana
   m_TagString: Mana
@@ -310,12 +311,27 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5994538894277719733}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41f246389d4512b40a335003f6e61c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 0}
+  statBarImage: {fileID: 5994538894277719728}
+  statBarText: {fileID: 5994538894854829532}
+  lerpSpeed: 4
+--- !u!114 &1571694484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5994538894277719733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4050913a5d0481ebf947d476aaba5a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   statBarImage: {fileID: 5994538894277719728}
   statBarText: {fileID: 5994538894854829532}
   lerpSpeed: 4
@@ -331,6 +347,7 @@ GameObject:
   - component: {fileID: 5994538894798085094}
   - component: {fileID: 5994538894798085113}
   - component: {fileID: 5994538894798085112}
+  - component: {fileID: 685293315}
   m_Layer: 5
   m_Name: Health
   m_TagString: Health
@@ -402,12 +419,27 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5994538894798085114}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41f246389d4512b40a335003f6e61c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 0}
+  statBarImage: {fileID: 5994538894798085113}
+  statBarText: {fileID: 5994538893947990492}
+  lerpSpeed: 4
+--- !u!114 &685293315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5994538894798085114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4050913a5d0481ebf947d476aaba5a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   statBarImage: {fileID: 5994538894798085113}
   statBarText: {fileID: 5994538893947990492}
   lerpSpeed: 4
@@ -500,6 +532,7 @@ GameObject:
   - component: {fileID: 5994538894988289810}
   - component: {fileID: 5994538894988289808}
   - component: {fileID: 5994538894988289811}
+  - component: {fileID: 653455061}
   m_Layer: 5
   m_Name: Frame
   m_TagString: Untagged
@@ -566,6 +599,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &653455061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5994538894988289813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 581185bc5ac346898f2b6d40f81b8a1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hudCharacterImage: {fileID: 5994538893949242102}
 --- !u!1 &5994538895190646271
 GameObject:
   m_ObjectHideFlags: 0

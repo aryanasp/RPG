@@ -12,12 +12,7 @@ namespace Controller
         {
             return debuffStatus.DebuffName == "Fire Projectile";
         }
-
-        protected override void CastSpell()
-        {
-            base.CastSpell();
-        }
-
+        
         protected override bool HandleInput()
         {
             return KeyController.AttackInputs[Fire];

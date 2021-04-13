@@ -89,7 +89,6 @@ namespace Controller
             }
             throw new Exception("There is no free slot");
         }
-        
     }
     
     public class DebuffStatus
@@ -136,7 +135,7 @@ namespace Controller
             set => _specialStatus = value;
         }
         
-        public event Action<GameObject, int, Transform> DoDebuffAction;
+        public Action<GameObject, int, Transform> DoDebuffAction;
 
         public DebuffStatus(int debuffSlotId, string debuffName, float timePassedFromDebuff, bool isInDebuff)
         {

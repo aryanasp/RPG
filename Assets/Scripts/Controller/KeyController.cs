@@ -6,17 +6,17 @@ namespace Controller
     public class KeyController : MonoBehaviour
     {
         //All Keys
-        private Dictionary<string, Dictionary<string, Action>> _allKeys;
+        private Dictionary<string, Dictionary<string, KeyAction>> _allKeys;
         public Dictionary<string, Dictionary<string, bool>> AllInputs;
         //Movement Keys
-        private Dictionary<string, Action> _movementKeys;
+        private Dictionary<string, KeyAction> _movementKeys;
         public Dictionary<string, bool> MovementInputs;
         
         //Mouse Positions
         public Dictionary<string, float> MousePositions;
         
         //Attack Keys
-        private Dictionary<string, Action> _attackKeys;
+        private Dictionary<string, KeyAction> _attackKeys;
         public Dictionary<string, bool> AttackInputs;
         // Start is called before the first frame update
         void Awake()
@@ -29,15 +29,15 @@ namespace Controller
         private void InitializeStructures()
         {
             //Initialize complete dictionaries
-            _allKeys = new Dictionary<string, Dictionary<string, Action>>();
+            _allKeys = new Dictionary<string, Dictionary<string, KeyAction>>();
             AllInputs = new Dictionary<string, Dictionary<string, bool>>();
             //Initialize movement dictionaries
-            _movementKeys = new Dictionary<string, Action>();
+            _movementKeys = new Dictionary<string, KeyAction>();
             MovementInputs = new Dictionary<string, bool>();
             //Initialize mouse dictionaries
             MousePositions = new Dictionary<string, float>();
             //Initialize attack dictionaries
-            _attackKeys = new Dictionary<string, Action>();
+            _attackKeys = new Dictionary<string, KeyAction>();
             AttackInputs = new Dictionary<string, bool>();
             //Add Movement dictionaries
             _allKeys["movement"] = _movementKeys;
@@ -50,12 +50,12 @@ namespace Controller
         private void InitializeDefaultKeyBindings()
         {
             //Movements
-            _movementKeys["Walk"] = new Action(KeyCode.Mouse1, "Press");
+            _movementKeys["Walk"] = new KeyAction(KeyCode.Mouse1, "Press");
             //Select
-            _movementKeys["Select"] = new Action(KeyCode.Mouse0, "Press");
+            _movementKeys["Select"] = new KeyAction(KeyCode.Mouse0, "Press");
             //Attacks
-            _attackKeys["Fire"] = new Action(KeyCode.Q, "Charge");
-            _attackKeys["Ice"] = new Action(KeyCode.W, "Charge");
+            _attackKeys["Fire"] = new KeyAction(KeyCode.Q, "Charge");
+            _attackKeys["Ice"] = new KeyAction(KeyCode.W, "Charge");
         }
         
         
@@ -104,13 +104,13 @@ namespace Controller
         }
     }
 
-    public class Action
+    public class KeyAction
     {
         public KeyCode KeyCode { get; set; }
 
         public string ActionType { get; set; }
 
-        public Action(KeyCode keyCode, string actionType)
+        public KeyAction(KeyCode keyCode, string actionType)
         {
             KeyCode = keyCode;
             ActionType = actionType;

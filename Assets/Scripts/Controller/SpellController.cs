@@ -22,7 +22,6 @@ namespace Controller
         //Attack
         protected AttackController AttackController;
 
-
         public bool IsCastingSpell { private set; get; }
 
         //Spell initialize variables
@@ -70,7 +69,6 @@ namespace Controller
             DebuffMethods = new DebuffMethodsModel();
         }
         
-
         protected virtual void Start()
         {
             StatController = GetComponent<StatController>();
@@ -133,7 +131,7 @@ namespace Controller
                         if (ShouldInitializeAction(debuffStatus))
                         {
                             debuffStatus.ResetAction();
-                            debuffStatus.DoDebuffAction += Debuff;
+                            debuffStatus.DoDebuffAction = Debuff;
                         }
                     }
                     InitializedDebuffControllersList.Add(debuffController);
@@ -218,7 +216,6 @@ namespace Controller
             ExecuteDebuffs(damageDestination, debuffStatus, debuffStatus.TimePassedFromDebuff);
             if (debuffStatus.TimePassedFromDebuff < Spell.DebuffDuration)
             {
-                
                 //TODO animation things should go in behaviour components
                 if (debuffStatus.IsInDebuff)
                 {

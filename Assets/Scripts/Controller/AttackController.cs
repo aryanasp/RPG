@@ -9,6 +9,8 @@ namespace Controller
     {
         //Attack
         public bool IsAttacking { get; set; }
+        
+        //TODO inappropriate implementation
         public List<SpellController> Spells { get; set; }
 
         void Awake()
@@ -16,7 +18,6 @@ namespace Controller
             Spells = new List<SpellController>();
         }
         
-
         void Update()
         {
             if (Spells != null)
@@ -29,5 +30,6 @@ namespace Controller
                 IsAttacking = attacks;
             }
         }
+        
     }
 }

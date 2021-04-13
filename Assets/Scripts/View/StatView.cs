@@ -9,7 +9,29 @@ namespace View
 {
     public class StatView : MonoBehaviour
     {
-        [SerializeField] private StatController character;
+        [SerializeField]
+        private StatController character;
+
+        private StatController _lastCharacter;
+        public GameObject Character
+        {
+            get => character.gameObject;
+            set
+            {
+                if (value != null)
+                {
+                    if (value.GetComponent<StatController>() != null)
+                    {
+                        if (_stats != null)
+                        {
+                            OnDisable();
+                        }
+                        character = value.GetComponent<StatController>();
+                        OnEnable();
+                    } 
+                }
+            }
+        }
 
         [SerializeField] private Image statBarImage;
         [SerializeField] private Text statBarText;
@@ -36,6 +58,7 @@ namespace View
 
         void Update()
         {
+            
             if (Math.Abs(statBarImage.fillAmount - _currentValue / _maxValue) < 0.01f)
             {
                 _uiShouldUpdate = false;
