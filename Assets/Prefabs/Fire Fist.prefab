@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 1100451986203610310}
   - component: {fileID: 6945896806992878630}
   - component: {fileID: 8072982277534429280}
-  - component: {fileID: -5223018434663472159}
-  m_Layer: 13
-  m_Name: Fire Projectile
+  m_Layer: 18
+  m_Name: Fire Fist
   m_TagString: Fire Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,16 +108,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.24666667, y: 0.48666668}
   m_EdgeRadius: 0
---- !u!114 &-5223018434663472159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8433826890000499641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a1e1e28bf913be4ab5908a81989f65e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectileSpeed: 2

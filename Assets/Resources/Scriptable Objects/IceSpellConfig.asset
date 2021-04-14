@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1416b58bf345c788554edc4da2ad53, type: 3}
+  m_Name: IceSpellConfig
+  m_EditorClassIdentifier: 
+  spellName: Ice Arrow
+  spellPrefab: {fileID: 8433826890000499641, guid: a070e8b439cbdc44f9e13773af2e2005,
+    type: 3}
+  damage: 7
+  spellCoolDown: 1
+  spellCastTime: 1
+  isProjectile: 1
+  isArea: 0
+  hasDuration: 0
