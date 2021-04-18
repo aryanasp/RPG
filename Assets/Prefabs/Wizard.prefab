@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 406095715460684085}
   - component: {fileID: 1722721567639905082}
   - component: {fileID: 1929918729977087821}
+  - component: {fileID: -841972738879502891}
   m_Layer: 14
   m_Name: Wizard
   m_TagString: Wizard
@@ -412,6 +413,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 054e95977def497d91f0c8ccffee0354, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &-841972738879502891
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 406095715460684227}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a877cd1aeb79a9419c22609ab702140, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &406095715575464302
 GameObject:
   m_ObjectHideFlags: 0

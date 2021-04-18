@@ -58,7 +58,10 @@ namespace Controller
 
         private void HandleVelocityChanged(object sender, OnVelocityChangedEventArgs e)
         {
-            _characterMovementView.Velocity = e.Velocity;
+            _characterMovementView.Velocity = e.Velocity == Vector2.zero
+                ? _characterMovementModel.MoveDirection * 0.001f
+                : e.Velocity;
+
             _characterMovementView.Destination = e.Destination;
         }
 

@@ -17,6 +17,12 @@ namespace View
         
     }
 
+    public class VelocityChangedInViewEventArgs : EventArgs
+    {
+        public Animator Animator { set; get; }
+        public Vector2 Velocity { set; get; }
+    }
+
     public interface ICharacterMovementView
     {
         event EventHandler<InitializedMovementEventArgs> OnMovementInitialize;
@@ -28,24 +34,20 @@ namespace View
         Vector2 Velocity { set; }
     }
 
-    [RequireComponent(typeof(Rigidbody2D))]
-    public class CharacterMovementView : MonoBehaviour, ICharacterMovementView
+    public interface ICharacterMovementAnimation
     {
+        event EventHandler<VelocityChangedInViewEventArgs> OnVelocityChangedInView;
+    }
+
+    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Animator))]
+    public class CharacterMovementView : MonoBehaviour, ICharacterMovementView, ICharacterMovementAnimation
+    {
+        private Rigidbody2D _rigidbody2D;
+        // Implement ICharacterMovementView interface
         public event EventHandler<InitializedMovementEventArgs> OnMovementInitialize = (sender, e) => { };
         public event EventHandler<DestinationClickedEventArgs> OnDestinationClicked = (sender, e) => { };
         public event EventHandler<DestinationReachedEventArgs> OnDestinationReached = (sender, e) => { };
-        private Rigidbody2D _rigidbody2D;
-
-        private void Start()
-        {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
-            var eventArgs = new InitializedMovementEventArgs
-            {
-                
-            };
-            OnMovementInitialize(this, eventArgs);
-        }
-        
         public Vector2 Position
         {
             get => transform.position;
@@ -60,9 +62,35 @@ namespace View
 
         public Vector2 Velocity
         {
-            set => _rigidbody2D.velocity = value;
+            set
+            {
+                if (_rigidbody2D.velocity != value)
+                {
+                    var eventArgs = new VelocityChangedInViewEventArgs
+                    {
+                        Animator = GetComponent<Animator>(),
+                        Velocity = value
+                    };
+                    _rigidbody2D.velocity = value;
+                    OnVelocityChangedInView(this, eventArgs);
+                }
+            }
         }
+        // Implement ICharacterMovementAnimation interface
+        public event EventHandler<VelocityChangedInViewEventArgs> OnVelocityChangedInView = (sender, e) => { };
+        
 
+        private void Start()
+        {
+            _rigidbody2D = GetComponent<Rigidbody2D>();
+            var eventArgs = new InitializedMovementEventArgs
+            {
+                
+            };
+            OnMovementInitialize(this, eventArgs);
+        }
+        
+        
         private void Update()
         {
             CheckIfReachedToDestination();
@@ -97,5 +125,7 @@ namespace View
                 }
             }
         }
+
+        
     }
 }

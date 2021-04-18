@@ -15,7 +15,7 @@ namespace Model
         Vector2 Destination { set; get; }
         Vector3 Rotation { set; get; }
         bool IsInDestination { set; get; }
-        Vector2 MoveDirection { set; }
+        Vector2 MoveDirection { set; get; }
     }
 
     public class CharacterMovementModel : ICharacterMovementModel
@@ -49,7 +49,7 @@ namespace Model
         }
         public Vector2 MoveDirection
         {
-            private get => _moveDirection;
+            get => _moveDirection;
             set
             {
                 if (_moveDirection != (Vector2)value)
