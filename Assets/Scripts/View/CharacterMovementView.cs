@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace View
 {
+    public class InitializedMovementEventArgs : EventArgs
+    {
+        
+    }
     public class DestinationClickedEventArgs : EventArgs
     {
         public Vector2 Destination { set; get; }
@@ -15,9 +19,11 @@ namespace View
 
     public interface ICharacterMovementView
     {
+        event EventHandler<InitializedMovementEventArgs> OnMovementInitialize;
         event EventHandler<DestinationClickedEventArgs> OnDestinationClicked;
         event EventHandler<DestinationReachedEventArgs> OnDestinationReached;
-        Vector2 Position { get; }
+        Vector2 Position {set; get; }
+        Vector3 Rotation { set; }
         Vector2 Destination { set; }
         Vector2 Velocity { set; }
     }
@@ -25,6 +31,7 @@ namespace View
     [RequireComponent(typeof(Rigidbody2D))]
     public class CharacterMovementView : MonoBehaviour, ICharacterMovementView
     {
+        public event EventHandler<InitializedMovementEventArgs> OnMovementInitialize = (sender, e) => { };
         public event EventHandler<DestinationClickedEventArgs> OnDestinationClicked = (sender, e) => { };
         public event EventHandler<DestinationReachedEventArgs> OnDestinationReached = (sender, e) => { };
         private Rigidbody2D _rigidbody2D;
@@ -32,10 +39,23 @@ namespace View
         private void Start()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
+            var eventArgs = new InitializedMovementEventArgs
+            {
+                
+            };
+            OnMovementInitialize(this, eventArgs);
+        }
+        
+        public Vector2 Position
+        {
+            get => transform.position;
+            set => transform.position = value;
         }
 
-
-        public Vector2 Position => transform.position;
+        public Vector3 Rotation
+        {
+            set => transform.Rotate(value.x, value.y, value.z);
+        }
         public Vector2 Destination { private get; set; }
 
         public Vector2 Velocity

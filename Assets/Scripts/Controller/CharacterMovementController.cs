@@ -19,10 +19,18 @@ namespace Controller
             _characterMovementModel = characterMovementModel;
             _characterMovementView = characterMovementView;
 
+            characterMovementView.OnMovementInitialize += HandleInitializeParams;
             characterMovementView.OnDestinationReached += HandleDestinationReached;
             characterMovementView.OnDestinationClicked += HandleDestinationClicked;
             characterMovementModel.OnVelocityChanged += HandleVelocityChanged;
             SyncDestinations();
+        }
+
+        private void HandleInitializeParams(object sender, InitializedMovementEventArgs e)
+        {
+            _characterMovementView.Position = _characterMovementModel.Destination;
+            _characterMovementView.Rotation = _characterMovementModel.Rotation;
+            _characterMovementView.Destination = _characterMovementModel.Destination;
         }
 
         private void SyncDestinations()

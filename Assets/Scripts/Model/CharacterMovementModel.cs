@@ -13,6 +13,7 @@ namespace Model
     {
         event EventHandler<OnVelocityChangedEventArgs> OnVelocityChanged;
         Vector2 Destination { set; get; }
+        Vector3 Rotation { set; get; }
         bool IsInDestination { set; get; }
         Vector2 MoveDirection { set; }
     }
@@ -26,6 +27,8 @@ namespace Model
         // Implement interface
         public event EventHandler<OnVelocityChangedEventArgs> OnVelocityChanged = (sender, e) => { };
         public Vector2 Destination { get; set; }
+
+        public Vector3 Rotation { get; set; }
 
         public bool IsInDestination
         {
@@ -65,6 +68,7 @@ namespace Model
         public CharacterMovementModel(Vector3 position, Vector3 rotation, float moveSpeed)
         {
             Destination = position;
+            Rotation = rotation;
             _isInDestination = true;
             _moveSpeed = moveSpeed;
         }
