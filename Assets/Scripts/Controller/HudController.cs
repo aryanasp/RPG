@@ -48,7 +48,7 @@ namespace Controller
         {
             if (_hudModel.Character == e.Character)
             {
-                if (_hudStatView.StatKey == e.Stat.Key)
+                if (_hudStatView.StatName == e.Stat.Name)
                 {
                     var tempStatValues = new Dictionary<string, float>()
                         {{"current", e.StatCurrentValue}, {"max", e.StatMaxValue}};
@@ -98,7 +98,7 @@ namespace Controller
                 {
                     // Introduce variable for character stat model
                     var characterStatModel = characterModel.CharacterStatModel;
-                    characterModel.CharacterStatModel.SwitchStat(_hudStatView.StatKey);
+                    characterModel.CharacterStatModel.SwitchStat(_hudStatView.StatName);
                     var temp = new Dictionary<string, float>()
                     {
                         {"current", characterStatModel.Stat.StatCurrentValue},
@@ -117,7 +117,7 @@ namespace Controller
                 {
                     // Introduce variable for character stat model
                     var characterStatModel = characterModel.CharacterStatModel;
-                    characterModel.CharacterStatModel.SwitchStat(e.Key);
+                    characterModel.CharacterStatModel.SwitchStat(e.StatName);
                     var temp = new Dictionary<string, float>()
                     {
                         {"current", characterStatModel.Stat.StatCurrentValue},

@@ -7,12 +7,12 @@ namespace View
 {
     public class HudStatBarInitializedEventArgs : EventArgs
     {
-        public string Key;
+        public string StatName;
     }
     
     public interface IHudStatView
     {
-        string StatKey {get; }
+        string StatName {get; }
         GameObject Character { get; set; }
         Dictionary<string, float>  StatConfigs { set; get; }
         event EventHandler<HudStatBarInitializedEventArgs> OnStatInitialized;
@@ -23,7 +23,7 @@ namespace View
         [SerializeField] private Image statBarImage;
         [SerializeField] private Text statBarText;
         
-        public string StatKey => gameObject.tag;
+        public string StatName => gameObject.tag;
         public event EventHandler<HudStatBarInitializedEventArgs> OnStatInitialized = (sender, e) => { };
         public GameObject Character { set; get; }
         
@@ -58,7 +58,7 @@ namespace View
         {
             var eventArgs = new HudStatBarInitializedEventArgs
             {
-                Key = gameObject.tag
+                StatName = gameObject.tag
             };
             OnStatInitialized(this, eventArgs);
         }

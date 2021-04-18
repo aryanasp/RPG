@@ -36,19 +36,18 @@ namespace Controller
 
         private void HandleStatChanged(object sender, CharacterStatChangedEventArgs e)
         {
-            _characterStatModel.ChangeStatValue(e.StatKey, e.ChangeAmount, e.IsIncreasingly, e.IsPercentile, e.IsFromMaxValue);
+            _characterStatModel.ChangeStatValue(e.StatName, e.ChangeAmount, e.IsIncreasingly, e.IsPercentile, e.IsFromMaxValue);
         }
 
         private void HandleStatInitializedFromViewInput(object sender, CharacterStatInitializedEventArgs e)
         {
-            _characterStatModel.Initialize(e.Key);
+            _characterStatModel.Initialize(e.StatName);
         }
 
-        
         private void HandleCharacterStatChanged(object sender, CharacterStatEventArgs e)
         {
             
-            if (_characterStatView.StatKey == e.Stat.Key)
+            if (_characterStatView.StatName == e.Stat.Name)
             {
                 var tempStatValues = new Dictionary<string, float>() { {"current", e.StatCurrentValue}, {"max", e.StatMaxValue}};
                 _characterStatView.StatConfigs = tempStatValues;
@@ -58,7 +57,7 @@ namespace Controller
         
         private void SyncStats()
         {
-            if (_characterStatView.StatKey == _characterStatModel.Stat.Key)
+            if (_characterStatView.StatName == _characterStatModel.Stat.Name)
             {
                 var tempStatValues = new Dictionary<string, float>() { {"current", _characterStatModel.Stat.StatCurrentValue}, {"max", _characterStatModel.Stat.StatMaxValue}};
                 _characterStatView.StatConfigs = tempStatValues;

@@ -81,5 +81,20 @@ namespace View
                 }
             }
         }
+        
+        public interface ICharacterMovementViewFactory
+        {
+            ICharacterMovementView View { get; }
+        }
+        
+        public class CharacterMovementViewFactory : ICharacterMovementViewFactory
+        {
+            public ICharacterMovementView View { get; private set; }
+
+            public CharacterMovementViewFactory(GameObject characterGameObject)
+            {
+                View = characterGameObject.GetComponent<ICharacterMovementView>();
+            }
+        }
     }
 }

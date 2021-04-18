@@ -14,9 +14,9 @@ public class GameManager : MonoBehaviour
     
     private void Awake()
     {
-        var wizard = new CharacterInitializer(wizardConfigs, Vector3.zero);
+        var wizard = new CharacterInitializer(wizardConfigs, Vector3.zero, Vector3.zero);
 
-        var skeleton = new CharacterInitializer(skeletonConfigs, new Vector3(1, 1, 0));
+        var skeleton = new CharacterInitializer(skeletonConfigs, new Vector3(1, 1, 0), Vector3.zero);
 
         var canvas = new CanvasInitializer(canvasConfigs);
 

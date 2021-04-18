@@ -15,7 +15,7 @@ namespace Initializers
     {
         // Initialize Character Stat
         // Initialize model and view for a character stats
-        public CharacterInitializer(CharacterConfig config, Vector3 position)
+        public CharacterInitializer(CharacterConfig config, Vector3 position, Vector3 rotation)
         {
             // Instantiate character game object
             GameObject characterGameObject =
@@ -41,11 +41,21 @@ namespace Initializers
                 new ControllerFactory.CharacterStatControllerFactory(characterStatModel, characterStatViews)
                     .Controllers;
 
+            // Initialize character movement
+            // Get movement initial values from config object
+            var characterMovementModel =
+                new ModelFactory.CharacterMovementModelFactory(position, rotation, config.MovementSpeed)
+                    .Model; // get base move speed from config
+            var characterMovementView = new ViewFactory.CharacterMovementViewFactory(characterGameObject).View;
+            var characterMovementController =
+                new ControllerFactory.CharacterMovementControllerFactory(characterMovementModel, characterMovementView)
+                    .Controller;
+
             // TODO add new mechanics here
 
 
             // Initialize new character with above mechanics
-            var character = new CharacterModel(characterGameObject, characterStatModel);
+            var character = new CharacterModel(characterGameObject, characterStatModel, characterMovementModel);
         }
     }
 }

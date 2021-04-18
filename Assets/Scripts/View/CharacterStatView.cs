@@ -9,7 +9,7 @@ namespace View
     public class CharacterStatChangedEventArgs : EventArgs
     {
         // Stat and change details
-        public string StatKey { get; set; }
+        public string StatName { get; set; }
         
         public bool IsIncreasingly { get; set; }
         public bool IsPercentile { set; get; }
@@ -40,12 +40,12 @@ namespace View
 
     public class CharacterStatInitializedEventArgs : EventArgs
     {
-        public string Key;
+        public string StatName;
     }
 
     public interface ICharacterStatView
     {
-        string StatKey {get; }
+        string StatName {get; }
 
         event EventHandler<CharacterStatInitializedEventArgs> OnStatInitialized;
         event EventHandler<CharacterStatChangedEventArgs> OnStatChanged;
@@ -64,7 +64,7 @@ namespace View
         [SerializeField] private float lerpSpeed;
         
         // Implement interface
-        public string StatKey => gameObject.tag;
+        public string StatName => gameObject.tag;
         public event EventHandler<CharacterStatInitializedEventArgs> OnStatInitialized = (sender, e) => { };
         public event EventHandler<CharacterStatChangedEventArgs> OnStatChanged = (sender, e) => { };
 
@@ -97,7 +97,7 @@ namespace View
         {
             var eventArgs = new CharacterStatInitializedEventArgs
             {
-                Key = gameObject.tag
+                StatName = gameObject.tag
             };
             OnStatInitialized(this, eventArgs);
         }
@@ -116,7 +116,7 @@ namespace View
                 {
                     var eventArgs = new CharacterStatChangedEventArgs
                     {
-                        ChangeAmount = 10, IsIncreasingly = false, IsPercentile = false, StatKey = "Health"
+                        ChangeAmount = 10, IsIncreasingly = false, IsPercentile = false, StatName = "Health"
                     };
                     OnStatChanged(this, eventArgs);
                 }
@@ -129,7 +129,7 @@ namespace View
                 {
                     var eventArgs = new CharacterStatChangedEventArgs
                     {
-                        ChangeAmount = 4, IsIncreasingly = false, IsPercentile = false, StatKey = "Mana"
+                        ChangeAmount = 4, IsIncreasingly = false, IsPercentile = false, StatName = "Mana"
                     };
                     OnStatChanged(this, eventArgs);
                 }

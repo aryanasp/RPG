@@ -143,8 +143,9 @@ GameObject:
   - component: {fileID: 918048616095604587}
   - component: {fileID: 918048616095604586}
   - component: {fileID: 1425913975}
+  - component: {fileID: 935926531907401602}
   m_Layer: 15
-  m_Name: Enemy Test
+  m_Name: Skeleton
   m_TagString: Skeleton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -273,6 +274,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6d64843aae02d0f41a21ac579d4ba50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &935926531907401602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918048616095604590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 054e95977def497d91f0c8ccffee0354, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &918048616273380706
@@ -514,8 +527,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statBarImage: {fileID: 918048616778587327}
   statBarText: {fileID: 0}
-  initialValue: 50
-  initialMaxValue: 60
   lerpSpeed: 4
 --- !u!1 &918048617059443781
 GameObject:
@@ -606,6 +617,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statBarImage: {fileID: 918048617059443776}
   statBarText: {fileID: 0}
-  initialValue: 40
-  initialMaxValue: 40
   lerpSpeed: 4

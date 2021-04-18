@@ -17,7 +17,7 @@ namespace Model
     
     public interface ICharacterStat
     {
-        string Key { get; }
+        string Name { get; }
         
         float StatMaxValue { get; }
         
@@ -31,7 +31,7 @@ namespace Model
     // Character health mechanics
     public class CharacterHealth : ICharacterStat
     {
-        public string Key => "Health";
+        public string Name => "Health";
         private float _statMaxValue;
         private float _statCurrentValue;
 
@@ -115,7 +115,7 @@ namespace Model
     // Character mana mechanics
     public class CharacterMana : ICharacterStat
     {
-        public string Key => "Mana";
+        public string Name => "Mana";
         private float _statMaxValue;
         private float _statCurrentValue;
 
@@ -209,7 +209,7 @@ namespace Model
         void Initialize(string key);
 
         void SwitchStat(string key);
-        void ChangeStatValue(string statKey, float amount, bool isIncreasingly, bool isPercentile,
+        void ChangeStatValue(string statName, float amount, bool isIncreasingly, bool isPercentile,
             bool isFromMaxValue);
     }
 
@@ -218,7 +218,6 @@ namespace Model
         private Dictionary<string, ICharacterStat> _stats;
 
         // ICharacterStatModel interface implemented
-        public event EventHandler<CharacterStatEventArgs> OnStatInitialized = (sender, e) => { };
         public GameObject Character { get; set; }
         public event EventHandler<CharacterStatEventArgs> OnStatChanged = (sender, e) => { };
         public ICharacterStat Stat { get; set; }
@@ -228,9 +227,9 @@ namespace Model
         {
             _stats = new Dictionary<string, ICharacterStat>();
             var initialHealthStat = new CharacterHealth(healthSetting[0], healthSetting[1]);
-            _stats[initialHealthStat.Key] = initialHealthStat;
+            _stats[initialHealthStat.Name] = initialHealthStat;
             var initialManaStat = new CharacterMana(manaSetting[0], manaSetting[1]);
-            _stats[initialManaStat.Key] = initialManaStat;
+            _stats[initialManaStat.Name] = initialManaStat;
             Stat = initialHealthStat;
         }
 
@@ -249,10 +248,10 @@ namespace Model
             Stat = _stats[key];
         }
 
-        public void ChangeStatValue(string statKey, float amount, bool isIncreasingly, bool isPercentile,
+        public void ChangeStatValue(string statName, float amount, bool isIncreasingly, bool isPercentile,
             bool isFromMaxValue)
         {
-            Stat = _stats[statKey];
+            Stat = _stats[statName];
             Stat.ChangeStatValue(amount, isIncreasingly, isPercentile, isFromMaxValue);
             var eventArgs = new CharacterStatEventArgs
             {
