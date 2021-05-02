@@ -8,18 +8,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private CameraConfig cameraConfigs;
     [SerializeField] private CanvasConfig canvasConfigs;
     [SerializeField] private CharacterConfig wizardConfigs;
-    [SerializeField] private CharacterConfig skeletonConfigs;
+    [SerializeField] private CharacterConfig skeletonWarriorConfigs;
     
     private void Awake()
     {
-        var wizard = new CharacterInitializer(wizardConfigs, Vector3.zero, Vector3.zero);
-
-        var skeleton = new CharacterInitializer(skeletonConfigs, new Vector3(1, 1, 0), Vector3.zero);
-
+        var mainCamera = new CameraInitializer(cameraConfigs, new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+        var skeleton = new CharacterInitializer(skeletonWarriorConfigs, new Vector3(0f, -2, -56f), new Vector3(-90, 0, 0));
         var canvas = new CanvasInitializer(canvasConfigs);
-
-
     }
 }

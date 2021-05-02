@@ -28,7 +28,6 @@ namespace Model
             CharactersInfoModel.CharacterModels.Add(this);
         }
         
-        
         // When character destruct delete from list
         public void Destroy()
         {

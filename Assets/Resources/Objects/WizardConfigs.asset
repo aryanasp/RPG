@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0436ca45a1b417c85b02c06fb0baf9e, type: 3}
-  m_Name: SkeletonConfigs
+  m_Name: WizardConfigs
   m_EditorClassIdentifier: 
-  characterPrefab: {fileID: 918048616095604590, guid: 5e82cb45a989fa1469cb521c7df6160c,
+  characterPrefab: {fileID: 406095715460684227, guid: ffb002574acfa244cb25cf739af64060,
     type: 3}
-  race: 2
-  movementSpeed: 1.2
-  maxHealthInitialValue: 70
-  healthInitialValue: 70
-  maxManaInitialValue: 40
-  manaInitialValue: 35
+  race: 0
+  movementSpeed: 75
+  maxHealthInitialValue: 50
+  healthInitialValue: 50
+  maxManaInitialValue: 200
+  manaInitialValue: 150

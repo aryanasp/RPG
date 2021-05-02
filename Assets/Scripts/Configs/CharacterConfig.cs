@@ -7,7 +7,12 @@ namespace Configs
     
     [CreateAssetMenu(fileName = "CharacterConfigs", menuName = "CharacterConfigs", order = 0)]
     public class CharacterConfig : ScriptableObject
-    {
+    {   
+        [Header("Controller", order = 1)]
+        [SerializeField] private ControllerEnum controller;
+        private enum ControllerEnum{ Player, AI}
+        private readonly bool[] _controllerBool = {true, false };
+        public bool IsControllerPlayer => _controllerBool[(int) controller];
         // TODO tribes should add : Wizard(nature, dark),Knights(elves, orcs, humans, dwarves), Dead(zombies, skeletons, vampires), Dragons(black red green blue)
         [Header("Prefab", order = 1)]
         [SerializeField] private GameObject characterPrefab;
@@ -17,7 +22,7 @@ namespace Configs
         [Header("Characteristics", order = 1)]
         [SerializeField] private RacesEnum race;
         private enum RacesEnum{ Wizard, Knight, Skeleton, DarkMagician, Dragon}
-        private readonly string[] _racesString = {"Wizard", "Knight", "Skeleton", "DarkMagician", "Dragon" };
+        private readonly string[] _racesString = {"Wizard", "Knight", "Skeleton", "DarkMagician", "Dragon"};
         public string Race => _racesString[(int) race];
         [Space]
         [Space]

@@ -5,8 +5,8 @@ namespace View
 {
     public class InitializedMovementEventArgs : EventArgs
     {
-        
     }
+
     public class DestinationClickedEventArgs : EventArgs
     {
         public Vector2 Destination { set; get; }
@@ -14,7 +14,6 @@ namespace View
 
     public class DestinationReachedEventArgs : EventArgs
     {
-        
     }
 
     public class VelocityChangedInViewEventArgs : EventArgs
@@ -28,7 +27,7 @@ namespace View
         event EventHandler<InitializedMovementEventArgs> OnMovementInitialize;
         event EventHandler<DestinationClickedEventArgs> OnDestinationClicked;
         event EventHandler<DestinationReachedEventArgs> OnDestinationReached;
-        Vector2 Position {set; get; }
+        Vector3 Position { set; get; }
         Vector3 Rotation { set; }
         Vector2 Destination { set; }
         Vector2 Velocity { set; }
@@ -44,11 +43,13 @@ namespace View
     public class CharacterMovementView : MonoBehaviour, ICharacterMovementView, ICharacterMovementAnimation
     {
         private Rigidbody2D _rigidbody2D;
+
         // Implement ICharacterMovementView interface
         public event EventHandler<InitializedMovementEventArgs> OnMovementInitialize = (sender, e) => { };
         public event EventHandler<DestinationClickedEventArgs> OnDestinationClicked = (sender, e) => { };
         public event EventHandler<DestinationReachedEventArgs> OnDestinationReached = (sender, e) => { };
-        public Vector2 Position
+
+        public Vector3 Position
         {
             get => transform.position;
             set => transform.position = value;
@@ -58,6 +59,7 @@ namespace View
         {
             set => transform.Rotate(value.x, value.y, value.z);
         }
+
         public Vector2 Destination { private get; set; }
 
         public Vector2 Velocity
@@ -76,21 +78,21 @@ namespace View
                 }
             }
         }
+
         // Implement ICharacterMovementAnimation interface
         public event EventHandler<VelocityChangedInViewEventArgs> OnVelocityChangedInView = (sender, e) => { };
-        
+
 
         private void Start()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
             var eventArgs = new InitializedMovementEventArgs
             {
-                
             };
             OnMovementInitialize(this, eventArgs);
         }
-        
-        
+
+
         private void Update()
         {
             CheckIfReachedToDestination();
@@ -98,13 +100,13 @@ namespace View
         }
 
         private void CheckIfReachedToDestination()
-        {
-            if (Mathf.Abs(Destination.x - transform.position.x) < 0.1f &&
-                Mathf.Abs(Destination.y - transform.position.y) < 0.1f)
+        {   
+            //TODO tolerance differs with scaler which is in model
+            if (Mathf.Abs(Destination.x - transform.position.x) < 4f &&
+                Mathf.Abs(Destination.y - transform.position.y) < 4f)
             {
                 var eventArgs = new DestinationReachedEventArgs
                 {
-                    
                 };
                 OnDestinationReached(this, eventArgs);
             }
@@ -117,15 +119,23 @@ namespace View
                 if (Camera.main)
                 {
                     Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    var mainCameraTransform = Camera.main.transform;
+                    var alpha = mainCameraTransform.parent.localEulerAngles.z;
+                    var theta = mainCameraTransform.localEulerAngles.x;
+                    var alphaRad = alpha * Mathf.Deg2Rad;
+                    var thetaRad = theta * Mathf.Deg2Rad;
+                    var xx = worldPosition.x - (worldPosition.z * (Mathf.Sin(alphaRad) * Mathf.Sin(thetaRad)) /
+                        Mathf.Cos(thetaRad));
+                    var yy =  worldPosition.y + (worldPosition.z * (Mathf.Cos(alphaRad) * Mathf.Sin(thetaRad)) /
+                                                 Mathf.Cos(thetaRad));
+                    
                     var targetEventArgs = new DestinationClickedEventArgs
                     {
-                        Destination = new Vector2(worldPosition.x, worldPosition.y),
+                        Destination = new Vector2(xx, yy)
                     };
                     OnDestinationClicked(this, targetEventArgs);
                 }
             }
         }
-
-        
     }
 }

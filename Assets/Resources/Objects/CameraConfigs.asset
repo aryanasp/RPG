@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a567093f8f4701808dd638c4de468e, type: 3}
+  m_Name: CameraConfigs
+  m_EditorClassIdentifier: 
+  cameraPrefab: {fileID: 1042687541415002951, guid: 65218084922986c439a26f966630a663,
+    type: 3}
+  mapPlane: {fileID: 463964954281641448, guid: fc143d79f25c9f84983b3939d655a79c, type: 3}
+  alphaPivotAngleWithPlane: 0
+  thetaCameraAngleWithPivot: -48
+  cameraMovementSpeed: 500
+  cameraTurnRate: 10

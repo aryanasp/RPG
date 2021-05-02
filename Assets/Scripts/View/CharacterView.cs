@@ -24,5 +24,6 @@ namespace View
                 _hudImageView.Character = gameObject;
             }
         }
+        
     }
 }
