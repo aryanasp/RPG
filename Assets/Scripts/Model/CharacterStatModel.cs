@@ -207,7 +207,7 @@ namespace Model
         ICharacterStat Stat { set; get; }
 
         void Initialize(string key);
-
+        void InitializeStats();
         void SwitchStat(string key);
         void ChangeStatValue(string statName, float amount, bool isIncreasingly, bool isPercentile,
             bool isFromMaxValue);
@@ -243,6 +243,14 @@ namespace Model
             OnStatChanged(this, eventArgs);
         }
 
+        public void InitializeStats()
+        {
+            foreach (var statsKey in _stats.Keys)
+            {
+                Initialize(statsKey);
+            }
+        }
+
         public void SwitchStat(string key)
         {
             Stat = _stats[key];
@@ -255,7 +263,7 @@ namespace Model
             Stat.ChangeStatValue(amount, isIncreasingly, isPercentile, isFromMaxValue);
             var eventArgs = new CharacterStatEventArgs
             {
-                Character = Character,Stat = Stat, StatMaxValue = Stat.StatMaxValue, StatCurrentValue = Stat.StatCurrentValue
+                Character = Character, Stat = Stat, StatMaxValue = Stat.StatMaxValue, StatCurrentValue = Stat.StatCurrentValue
             };
             OnStatChanged(this, eventArgs);
         }

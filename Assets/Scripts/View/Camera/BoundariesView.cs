@@ -25,6 +25,7 @@ namespace View
 
         private void OnMouseEnter()
         {
+            
             var eventArgs = new MouseOverBoundaryEventArgs
             {
                 DirectionName = _boundarySideView.BoundarySide,
@@ -32,6 +33,7 @@ namespace View
             };
             OnMouseOverBoundary(this, eventArgs);
         }
+        
 
         private void OnMouseExit()
         {
@@ -41,6 +43,11 @@ namespace View
                 DirectionVector = -_boundarySideView.BoundarySideVector
             };
             OnMouseOverBoundary(this, eventArgs);
+        }
+
+        private void FixedUpdate()
+        {
+            transform.localPosition += Vector3.forward;
         }
     }
 }

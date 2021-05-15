@@ -15,9 +15,13 @@ namespace Initializers
     {
         public CameraInitializer(CameraConfig cameraConfig, Vector3 position, Vector3 rotation)
         {
+            var cameraGameObject = UnityEngine.Object.FindObjectOfType<CameraHolderView>()?.gameObject;
             // Create camera
-            GameObject cameraGameObject =
-                UnityEngine.Object.Instantiate(cameraConfig.CameraPrefab, position, Quaternion.identity);
+            if (cameraGameObject == null)
+            {
+                cameraGameObject = UnityEngine.Object.Instantiate(cameraConfig.CameraPrefab, position, Quaternion.identity); 
+            }
+
             // Initialize camera data
             // Get camera initial data from config object
             var cameraData = new CameraData(cameraConfig.MapPlanTransform, cameraConfig.AlphaPivotAngleWithPlane,

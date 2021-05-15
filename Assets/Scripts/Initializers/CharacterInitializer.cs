@@ -4,6 +4,7 @@ using Controller;
 using Model;
 using UnityEngine;
 using View;
+using View.Character;
 
 namespace Initializers
 {
@@ -15,12 +16,19 @@ namespace Initializers
     {
         // Initialize Character Stat
         // Initialize model and view for a character stats
-        public CharacterInitializer(CharacterConfig config, Vector3 position, Vector3 rotation)
+        public CharacterInitializer(ISelectedCharacterData selectedCharacterData,
+            IControllableCharacterData controllableCharacterData, CharacterConfig config, Vector3 position,
+            Vector3 rotation)
         {
             // Instantiate character game object
             GameObject characterGameObject =
-                UnityEngine.Object.Instantiate(config.CharacterPrefab, position, Quaternion.identity);
+                UnityEngine.Object.FindObjectOfType<CharacterSelectView>()?.gameObject;
 
+            if (characterGameObject == null)
+            {
+                characterGameObject =
+                    UnityEngine.Object.Instantiate(config.CharacterPrefab, position, Quaternion.identity);
+            }
 
             // Initialize character stat
             // Get stat initial values from config object
@@ -55,7 +63,11 @@ namespace Initializers
 
 
             // Initialize new character with above mechanics
-            var character = new CharacterModel(characterGameObject, characterStatModel, characterMovementModel);
+            var characterModel = new CharacterModel(characterGameObject, config.HudImage, characterStatModel,
+                characterMovementModel);
+
+            var characterSelectView = characterGameObject.GetComponent<CharacterSelectView>();
+            var characterSelectController = new CharacterSelectController(characterSelectView, characterModel, selectedCharacterData, controllableCharacterData);
         }
     }
 }

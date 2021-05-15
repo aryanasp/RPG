@@ -15,7 +15,6 @@ namespace View
         string StatName {get; }
         GameObject Character { get; set; }
         Dictionary<string, float>  StatConfigs { set; get; }
-        event EventHandler<HudStatBarInitializedEventArgs> OnStatInitialized;
     }
     
     public class HudStatView : MonoBehaviour, IHudStatView
@@ -24,10 +23,9 @@ namespace View
         [SerializeField] private Text statBarText;
         
         public string StatName => gameObject.tag;
-        public event EventHandler<HudStatBarInitializedEventArgs> OnStatInitialized = (sender, e) => { };
         public GameObject Character { set; get; }
         
-        private readonly Dictionary<string, float> _statConfigs = new Dictionary<string, float>() {{"current", 0}, {"max", 1}};
+        private readonly Dictionary<string, float> _statConfigs = new Dictionary<string, float>() {{"current", 0}, {"max", 100}};
         private bool _uiShouldUpdate;
         
         //TODO should go to model
@@ -53,17 +51,7 @@ namespace View
                 statBarText.text = current + "/" + max;
             }
         }
-        
-        private void Start()
-        {
-            var eventArgs = new HudStatBarInitializedEventArgs
-            {
-                StatName = gameObject.tag
-            };
-            OnStatInitialized(this, eventArgs);
-        }
-        
-        
+
         private void Update()
         {
             HandleStatBar();

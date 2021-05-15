@@ -24,6 +24,8 @@ namespace Configs
         private enum RacesEnum{ Wizard, Knight, Skeleton, DarkMagician, Dragon}
         private readonly string[] _racesString = {"Wizard", "Knight", "Skeleton", "DarkMagician", "Dragon"};
         public string Race => _racesString[(int) race];
+        [SerializeField] private Sprite hudImage;
+        public Sprite HudImage => hudImage;
         [Space]
         [Space]
         [Header("Attributes", order = 1)]

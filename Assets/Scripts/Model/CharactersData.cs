@@ -2,7 +2,7 @@
 
 namespace Model
 {
-    public static class CharactersInfoModel
+    public static class CharactersData
     {
         public static List<ICharacterModel> CharacterModels = new List<ICharacterModel>();
     }

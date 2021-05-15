@@ -16,6 +16,6 @@ MonoBehaviour:
     type: 3}
   mapPlane: {fileID: 463964954281641448, guid: fc143d79f25c9f84983b3939d655a79c, type: 3}
   alphaPivotAngleWithPlane: 0
-  thetaCameraAngleWithPivot: -48
+  thetaCameraAngleWithPivot: -40
   cameraMovementSpeed: 500
   cameraTurnRate: 10

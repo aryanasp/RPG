@@ -2,6 +2,7 @@
 using Model;
 using UnityEngine;
 using View;
+using View.Hud;
 
 namespace Controller
 {
@@ -25,12 +26,12 @@ namespace Controller
             }
 
             // Create just the controller
-            public HudCharacterControllerFactory(IHudModel hudModel, IHudImageView hudImageView,
+            public HudCharacterControllerFactory(ISelectedCharacterData selectedCharacterData, IHudImageView hudImageView,
                 List<IHudStatView> hudStatViews)
             {
                 foreach (var hudStatView in hudStatViews)
                 {
-                    _controllers.Add(new HudController(hudModel, hudImageView, hudStatView));
+                    _controllers.Add(new HudController(selectedCharacterData, hudImageView, hudStatView));
                 }
             }
         }

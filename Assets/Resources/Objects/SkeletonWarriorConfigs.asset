@@ -16,6 +16,7 @@ MonoBehaviour:
   characterPrefab: {fileID: 918048616095604590, guid: 5e82cb45a989fa1469cb521c7df6160c,
     type: 3}
   race: 2
+  hudImage: {fileID: 21300000, guid: 312bd3171000fdf43b9c126aca8da766, type: 3}
   movementSpeed: 550
   maxHealthInitialValue: 100
   healthInitialValue: 100

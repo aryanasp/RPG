@@ -38,11 +38,11 @@ namespace View
         event EventHandler<VelocityChangedInViewEventArgs> OnVelocityChangedInView;
     }
 
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(Animator))]
     public class CharacterMovementView : MonoBehaviour, ICharacterMovementView, ICharacterMovementAnimation
     {
-        private Rigidbody2D _rigidbody2D;
+        private Rigidbody _rigidbody;
 
         // Implement ICharacterMovementView interface
         public event EventHandler<InitializedMovementEventArgs> OnMovementInitialize = (sender, e) => { };
@@ -66,14 +66,14 @@ namespace View
         {
             set
             {
-                if (_rigidbody2D.velocity != value)
+                if (_rigidbody.velocity != (Vector3) value)
                 {
                     var eventArgs = new VelocityChangedInViewEventArgs
                     {
                         Animator = GetComponent<Animator>(),
                         Velocity = value
                     };
-                    _rigidbody2D.velocity = value;
+                    _rigidbody.velocity = value;
                     OnVelocityChangedInView(this, eventArgs);
                 }
             }
@@ -85,7 +85,7 @@ namespace View
 
         private void Start()
         {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
+            _rigidbody = GetComponent<Rigidbody>();
             var eventArgs = new InitializedMovementEventArgs
             {
             };
@@ -136,6 +136,11 @@ namespace View
                     OnDestinationClicked(this, targetEventArgs);
                 }
             }
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            Debug.Log("hiiii");
         }
     }
 }
