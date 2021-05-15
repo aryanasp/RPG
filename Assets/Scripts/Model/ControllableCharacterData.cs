@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Model
 {
+    
     public class ConfirmIdEventArgs : EventArgs
     {
             
@@ -10,10 +11,10 @@ namespace Model
     
     public interface IControllableCharacterData
     {
-        event EventHandler<ConfirmIdEventArgs> OnConfirmId; 
+        event EventHandler<ConfirmIdEventArgs> OnConfirmId;
         int Id { set; get; }
         List<int> ControllableCharacterIds { set; get; }
-        ICharacterMovementModel CharacterMovementModel { set; get; }
+        ICharacterMovementModel CharacterMovementModel { set; get;}
     }
     public class ControllableCharacterData : IControllableCharacterData
     {

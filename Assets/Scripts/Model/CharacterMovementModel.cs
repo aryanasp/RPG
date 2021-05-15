@@ -3,6 +3,14 @@ using UnityEngine;
 
 namespace Model
 {
+    public class DestinationChangedEventArgs : EventArgs
+    {
+    }
+    
+    public class FindPathToDestinationEventArgs : EventArgs 
+    {
+    
+    }
     public class OnVelocityChangedEventArgs : EventArgs
     {
         public Vector2 Velocity { get; set; }
@@ -11,6 +19,8 @@ namespace Model
 
     public interface ICharacterMovementModel
     {
+        event EventHandler<DestinationChangedEventArgs> OnDestinationChanged;
+        event EventHandler<FindPathToDestinationEventArgs> OnFindPathToDestination; 
         event EventHandler<OnVelocityChangedEventArgs> OnVelocityChanged;
         Vector3 Destination { set; get; }
         Vector3 Rotation { set; get; }
@@ -27,8 +37,23 @@ namespace Model
         private bool _isInDestination;
         
         // Implement interface
+        public event EventHandler<DestinationChangedEventArgs> OnDestinationChanged = (sender, e) => { };
+        public event EventHandler<FindPathToDestinationEventArgs> OnFindPathToDestination = (sender, e) => { };
         public event EventHandler<OnVelocityChangedEventArgs> OnVelocityChanged = (sender, e) => { };
-        public Vector3 Destination { get; set; }
+        private Vector3 _destination;
+
+        public Vector3 Destination
+        {
+            get => _destination;
+            set
+            {
+                _destination = value;
+                var eventArgs = new DestinationChangedEventArgs
+                {
+                };
+                OnDestinationChanged(this, eventArgs);
+            }
+        }
 
         public Vector3 Rotation { get; set; }
 
@@ -46,6 +71,14 @@ namespace Model
                         Destination = Destination
                     };
                     OnVelocityChanged(this, eventArgs);
+                }
+                if (value == false)
+                {
+                    var eventArgs = new FindPathToDestinationEventArgs
+                    {
+
+                    };
+                    OnFindPathToDestination(this, eventArgs);
                 }
             }
         }

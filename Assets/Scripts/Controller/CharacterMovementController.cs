@@ -21,8 +21,20 @@ namespace Controller
 
             characterMovementView.OnMovementInitialize += HandleInitializeParams;
             characterMovementView.OnDestinationReached += HandleDestinationReached;
-            characterMovementView.OnDestinationClicked += HandleDestinationClicked;
+
+            characterMovementModel.OnDestinationChanged += HandleDestinationChanged;
+            characterMovementModel.OnFindPathToDestination += HandleFindPath;
             characterMovementModel.OnVelocityChanged += HandleVelocityChanged;
+            SyncDestinations();
+        }
+
+        private void HandleFindPath(object sender, FindPathToDestinationEventArgs e)
+        {
+            FindRoadToDestination();
+        }
+
+        private void HandleDestinationChanged(object sender, DestinationChangedEventArgs e)
+        {
             SyncDestinations();
         }
 
@@ -38,16 +50,9 @@ namespace Controller
             _characterMovementView.Destination = _characterMovementModel.Destination;
         }
 
-        private void HandleDestinationClicked(object sender, DestinationClickedEventArgs e)
-        {
-            _characterMovementModel.Destination = e.Destination;
-            SyncDestinations();
-            _characterMovementModel.IsInDestination = false;
-            FindRoadToDestination();
-        }
-
         private void FindRoadToDestination()
         {
+            Debug.Log("heyvan");
             var currentPos = _characterMovementView.Position;
             var destination = _characterMovementModel.Destination;
             if (!_characterMovementModel.IsInDestination)
@@ -56,8 +61,10 @@ namespace Controller
             }
         }
 
+
         private void HandleVelocityChanged(object sender, OnVelocityChangedEventArgs e)
         {
+            
             _characterMovementView.Velocity = e.Velocity == Vector2.zero
                 ? _characterMovementModel.MoveDirection * 0.001f
                 : e.Velocity;
